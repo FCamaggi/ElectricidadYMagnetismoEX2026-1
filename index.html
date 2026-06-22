@@ -46,7 +46,9 @@
   <div class="nav-section">
     <div class="nav-section-label">Recursos</div>
     <a href="#ecuaciones-maxwell">Ec. de Maxwell</a>
-    <a href="#resumen">Formulario</a>
+    <a href="#control-ampere-faraday">Control miércoles</a>
+    <a href="#formulario-generator">Formulario por temas</a>
+    <a href="#resumen">Formulario completo</a>
     <a href="#evaluacion-mixta">Evaluación mixta</a>
     <a href="#quiz-section">Quiz</a>
     <a href="#licencia">Licencia</a>
@@ -1094,6 +1096,73 @@
   <div class="callout key">
     <span class="callout-icon">✨</span>
     <div class="callout-body"><strong>La simetría de Maxwell:</strong> Las ecuaciones 3 y 4 revelan la hermosa simetría entre E y B: un campo variable en el tiempo crea el otro. Esta retroalimentación permite la propagación de ondas electromagnéticas a velocidad \(c = 1/\sqrt{\varepsilon_0\mu_0} \approx 3\times10^8\,\text{m/s}\).</div>
+  </div>
+</section>
+
+
+<!-- ── PROFUNDIZACIÓN CONTROL ── -->
+<section id="control-ampere-faraday">
+  <div class="section-eyebrow">Preparación control miércoles</div>
+  <h2 class="section-title">Ampère, flujo e <span>inducción</span></h2>
+  <p class="section-desc">Ruta enfocada en los contenidos declarados para el control: Ley de Ampère, dipolo magnético, flujo magnético, corriente y fem inducida, fem en movimiento y potencia, fem inducida y campo eléctrico, y Ley de Lenz.</p>
+
+  <div class="study-path">
+    <article class="study-step">
+      <div class="study-step-num">1</div>
+      <div><h3>Ley de Ampère: cuándo sirve</h3><p>Úsala cuando la simetría permite que \(\vec B\) sea tangente y de magnitud constante sobre una trayectoria cerrada: alambre infinito, solenoide ideal y toroide. Si no puedes sacar \(B\) de la integral, probablemente Biot-Savart o superposición es mejor.</p><div class="formula-box gold">\[\oint \vec B\cdot d\vec l=\mu_0 I_\text{enc}\]</div></div>
+    </article>
+    <article class="study-step">
+      <div class="study-step-num">2</div>
+      <div><h3>Dipolo magnético</h3><p>Una espira con corriente se comporta como un dipolo: su momento apunta según la regla de la mano derecha. En campo uniforme siente torque; en campo no uniforme puede experimentar fuerza neta hacia regiones de mayor campo.</p><div class="formula-box">\[\vec\mu=NI\vec A,\qquad \vec\tau=\vec\mu\times\vec B,\qquad U=-\vec\mu\cdot\vec B\]</div></div>
+    </article>
+    <article class="study-step">
+      <div class="study-step-num">3</div>
+      <div><h3>Flujo magnético</h3><p>El flujo mide cuántas líneas de campo atraviesan una superficie orientada. El signo depende de la normal elegida; cambiar la normal cambia el signo, no la física.</p><div class="formula-box violet">\[\Phi_B=\int_S\vec B\cdot d\vec A\quad \Rightarrow\quad \Phi_B=BA\cos\theta\ \text{si }B\text{ es uniforme}\]</div></div>
+    </article>
+    <article class="study-step">
+      <div class="study-step-num">4</div>
+      <div><h3>Faraday: fem por cambio de flujo</h3><p>Hay fem inducida si cambia \(B\), el área, el ángulo, o si el circuito se mueve de modo que cambia el flujo. El signo menos no es decoración: codifica Lenz.</p><div class="formula-box cyan">\[\mathcal E=-N\frac{d\Phi_B}{dt},\qquad I_\text{ind}=\frac{|\mathcal E|}{R}\]</div></div>
+    </article>
+    <article class="study-step">
+      <div class="study-step-num">5</div>
+      <div><h3>Fem en movimiento y potencia</h3><p>Para una barra de largo \(L\) moviéndose con rapidez \(v\) perpendicular a \(\vec B\), las cargas sienten \(q\vec v\times\vec B\). En circuito cerrado aparece corriente y la potencia mecánica externa termina como calor Joule.</p><div class="formula-box green">\[\mathcal E=B\ell v,\qquad I=\frac{B\ell v}{R},\qquad P_\text{mec}=Fv=I^2R=\frac{B^2\ell^2v^2}{R}\]</div></div>
+    </article>
+    <article class="study-step">
+      <div class="study-step-num">6</div>
+      <div><h3>Fem inducida y campo eléctrico</h3><p>Cuando \(\partial\vec B/\partial t\neq0\), el campo eléctrico inducido no es conservativo: sus líneas son cerradas y la integral de línea puede ser distinta de cero, incluso sin batería.</p><div class="formula-box violet">\[\oint\vec E\cdot d\vec l=-\frac{d\Phi_B}{dt}\]</div></div>
+    </article>
+    <article class="study-step">
+      <div class="study-step-num">7</div>
+      <div><h3>Lenz: algoritmo de dirección</h3><p>Primero decide si el flujo aumenta o disminuye; luego elige el campo inducido que se opone a ese cambio; finalmente traduce ese campo a corriente con la regla de la mano derecha.</p><div class="mini-check"><strong>Error típico:</strong> oponerse al campo no siempre significa apuntar contra el campo externo; la corriente se opone al <em>cambio de flujo</em>.</div></div>
+    </article>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Checklist de resolución</div>
+      <ol class="compact-list"><li>Dibuja dirección de \(\vec B\), normal \(d\vec A\), corriente y velocidad.</li><li>Define si el problema es magnetostático, flujo variable o movimiento.</li><li>Escribe la ley integral antes de reemplazar números.</li><li>Revisa signos con Lenz y magnitudes con unidades.</li><li>Si hay potencia, identifica dónde entra trabajo externo y dónde se disipa.</li></ol>
+    </div>
+    <div class="card">
+      <div class="card-title">Recursos externos para repasar</div>
+      <ul class="resource-list"><li><a href="https://openstax.org/books/university-physics-volume-2/pages/12-5-amperes-law" target="_blank" rel="noopener">OpenStax: Ampère's Law</a></li><li><a href="https://openstax.org/books/university-physics-volume-2/pages/13-1-faradays-law" target="_blank" rel="noopener">OpenStax: Faraday's Law</a></li><li><a href="https://openstax.org/books/university-physics-volume-2/pages/13-2-lenzs-law" target="_blank" rel="noopener">OpenStax: Lenz's Law</a></li><li><a href="https://ocw.mit.edu/courses/8-02t-electricity-and-magnetism-spring-2005/724a162b8c03487f5faae202b395fadd_cha10faraday_law.pdf" target="_blank" rel="noopener">MIT OCW: Chapter 10 Faraday's Law</a></li><li><a href="https://phet.colorado.edu/en/simulation/faraday" target="_blank" rel="noopener">PhET: Faraday's Electromagnetic Lab</a></li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── FORMULARIO GENERADOR ── -->
+<section id="formulario-generator">
+  <div class="section-eyebrow">Formulario personalizable</div>
+  <h2 class="section-title">Generador de <span>Formulario</span></h2>
+  <p class="section-desc">Activa los temas que entran en tu control o examen. Hoy puedes dejar marcados solo los siete temas del miércoles; más adelante puedes combinar estos bloques con el formulario completo.</p>
+
+  <div class="formula-builder">
+    <div class="formula-toolbar" role="group" aria-label="Acciones del generador de formulario">
+      <button class="sim-pause" type="button" id="formula-select-control">Control miércoles</button>
+      <button class="sim-pause" type="button" id="formula-select-all">Seleccionar todo</button>
+      <button class="sim-pause" type="button" id="formula-clear">Limpiar</button>
+    </div>
+    <div class="toggle-grid" id="formula-topic-toggles" aria-label="Temas disponibles para generar formulario"></div>
+    <div class="generated-formula" id="generated-formula" aria-live="polite"></div>
   </div>
 </section>
 

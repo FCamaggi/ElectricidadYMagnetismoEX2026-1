@@ -315,3 +315,163 @@ resR.addEventListener('input', drawResonance);
 resL.addEventListener('input', drawResonance);
 resC.addEventListener('input', drawResonance);
 drawResonance();
+
+/* ──────────────────────────────────────────────
+   FORMULA BUILDER
+   ────────────────────────────────────────────── */
+const formulaTopics = [
+  {
+    id: 'ampere',
+    title: 'Ley de Ampère',
+    control: true,
+    formulas: [
+      '\\(\\displaystyle \\oint \\vec B\\cdot d\\vec l=\\mu_0 I_\\text{enc}\\)',
+      '\\(\\displaystyle B_\\text{alambre}=\\frac{\\mu_0 I}{2\\pi r}\\)',
+      '\\(\\displaystyle B_\\text{solenoide}=\\mu_0 nI\\)',
+      '\\(\\displaystyle B_\\text{toroide}=\\frac{\\mu_0NI}{2\\pi r}\\)'
+    ],
+    note: 'Funciona mejor cuando la trayectoria amperiana aprovecha simetría y B es constante sobre el camino.'
+  },
+  {
+    id: 'dipolo',
+    title: 'Dipolo magnético',
+    control: true,
+    formulas: [
+      '\\(\\displaystyle \\vec\\mu=NI\\vec A\\)',
+      '\\(\\displaystyle \\vec\\tau=\\vec\\mu\\times\\vec B\\)',
+      '\\(\\displaystyle U=-\\vec\\mu\\cdot\\vec B\\)',
+      '\\(\\displaystyle |\\tau|=\\mu B\\sin\\theta\\)'
+    ],
+    note: 'La dirección de μ se obtiene con la regla de la mano derecha siguiendo el sentido de la corriente.'
+  },
+  {
+    id: 'flujo',
+    title: 'Flujo magnético',
+    control: true,
+    formulas: [
+      '\\(\\displaystyle \\Phi_B=\\int_S\\vec B\\cdot d\\vec A\\)',
+      '\\(\\displaystyle \\Phi_B=BA\\cos\\theta\\quad(B\\text{ uniforme})\\)',
+      '\\(\\displaystyle [\\Phi_B]=\\text{Wb}=\\text{T}\\,\\text{m}^2\\)',
+      '\\(\\displaystyle \\oint_S\\vec B\\cdot d\\vec A=0\\)'
+    ],
+    note: 'El ángulo θ se mide entre B y la normal de la superficie, no necesariamente con el plano de la espira.'
+  },
+  {
+    id: 'faraday',
+    title: 'Corriente y fem inducida (Faraday)',
+    control: true,
+    formulas: [
+      '\\(\\displaystyle \\mathcal E=-N\\frac{d\\Phi_B}{dt}\\)',
+      '\\(\\displaystyle I_\\text{ind}=\\frac{|\\mathcal E|}{R}\\)',
+      '\\(\\displaystyle \\Phi_B=NBA\\cos\\theta\\)',
+      '\\(\\displaystyle \\mathcal E_\\text{máx}=NBA\\omega\\quad(\\text{espira que rota})\\)'
+    ],
+    note: 'Puede cambiar B, A, θ o el número efectivo de espiras atravesadas por el campo.'
+  },
+  {
+    id: 'motional',
+    title: 'Fem en movimiento y potencia',
+    control: true,
+    formulas: [
+      '\\(\\displaystyle \\mathcal E=B\\ell v\\quad(\\vec v\\perp\\vec B,\\ \\ell\\perp\\vec v)\\)',
+      '\\(\\displaystyle I=\\frac{B\\ell v}{R}\\)',
+      '\\(\\displaystyle F_\\text{mag}=I\\ell B=\\frac{B^2\\ell^2v}{R}\\)',
+      '\\(\\displaystyle P=Fv=I^2R=\\frac{B^2\\ell^2v^2}{R}\\)'
+    ],
+    note: 'La fuerza magnética sobre la barra se opone al movimiento que produce el cambio de flujo.'
+  },
+  {
+    id: 'einducido',
+    title: 'Fem inducida y campo eléctrico',
+    control: true,
+    formulas: [
+      '\\(\\displaystyle \\oint\\vec E\\cdot d\\vec l=-\\frac{d\\Phi_B}{dt}\\)',
+      '\\(\\displaystyle E(2\\pi r)=\\left|\\frac{d}{dt}(B\\pi r^2)\\right|\\quad(r<R)\\)',
+      '\\(\\displaystyle E(2\\pi r)=\\left|\\frac{d}{dt}(B\\pi R^2)\\right|\\quad(r>R)\\)'
+    ],
+    note: 'Este campo eléctrico inducido no es conservativo: no se describe globalmente con V como en electrostática.'
+  },
+  {
+    id: 'lenz',
+    title: 'Ley de Lenz',
+    control: true,
+    formulas: [
+      '\\(\\displaystyle \\mathcal E=-N\\frac{d\\Phi_B}{dt}\\)',
+      'Cambio de flujo \\(\\uparrow\\) → campo inducido se opone al aumento',
+      'Cambio de flujo \\(\\downarrow\\) → campo inducido intenta mantener el flujo original',
+      'Campo inducido → sentido de corriente con regla de la mano derecha'
+    ],
+    note: 'Lenz se opone al cambio de flujo, no necesariamente al campo externo en sí.'
+  },
+  {
+    id: 'biot',
+    title: 'Biot-Savart y campos útiles',
+    control: false,
+    formulas: [
+      '\\(\\displaystyle d\\vec B=\\frac{\\mu_0}{4\\pi}\\frac{I\\,d\\vec l\\times\\hat r}{r^2}\\)',
+      '\\(\\displaystyle B_\\text{espira centro}=\\frac{\\mu_0I}{2a}\\)',
+      '\\(\\displaystyle B_\\text{eje espira}=\\frac{\\mu_0Ia^2}{2(x^2+a^2)^{3/2}}\\)'
+    ],
+    note: 'Útil cuando no hay simetría suficiente para una amperiana simple.'
+  },
+  {
+    id: 'maxwell',
+    title: 'Ampère-Maxwell',
+    control: false,
+    formulas: [
+      '\\(\\displaystyle \\oint\\vec B\\cdot d\\vec l=\\mu_0 I_\\text{enc}+\\mu_0\\epsilon_0\\frac{d\\Phi_E}{dt}\\)',
+      '\\(\\displaystyle c=\\frac{1}{\\sqrt{\\mu_0\\epsilon_0}}\\)'
+    ],
+    note: 'Necesaria cuando el flujo eléctrico cambia en el tiempo, como entre placas de un capacitor cargándose.'
+  }
+];
+
+function renderFormulaBuilder() {
+  const toggles = document.getElementById('formula-topic-toggles');
+  const output = document.getElementById('generated-formula');
+  if(!toggles || !output) return;
+
+  toggles.innerHTML = formulaTopics.map(topic => `
+    <label class="topic-toggle" for="topic-${topic.id}">
+      <input type="checkbox" id="topic-${topic.id}" value="${topic.id}" ${topic.control ? 'checked' : ''}>
+      <span>${topic.title}</span>
+    </label>
+  `).join('');
+
+  const updateOutput = () => {
+    const selected = new Set([...toggles.querySelectorAll('input:checked')].map(input => input.value));
+    const topics = formulaTopics.filter(topic => selected.has(topic.id));
+    if(topics.length === 0) {
+      output.innerHTML = '<div class="generated-formula-empty">Selecciona al menos un tema para generar tu formulario.</div>';
+    } else {
+      output.innerHTML = topics.map(topic => `
+        <article class="formula-topic-card">
+          <h3>${topic.title}</h3>
+          <ul class="formula-list">${topic.formulas.map(item => `<li>${item}</li>`).join('')}</ul>
+          <p class="formula-note">${topic.note}</p>
+        </article>
+      `).join('');
+    }
+    if(window.MathJax?.typesetPromise) MathJax.typesetPromise([output]);
+  };
+
+  toggles.addEventListener('change', updateOutput);
+  document.getElementById('formula-select-control')?.addEventListener('click', () => {
+    toggles.querySelectorAll('input').forEach(input => {
+      const topic = formulaTopics.find(item => item.id === input.value);
+      input.checked = Boolean(topic?.control);
+    });
+    updateOutput();
+  });
+  document.getElementById('formula-select-all')?.addEventListener('click', () => {
+    toggles.querySelectorAll('input').forEach(input => { input.checked = true; });
+    updateOutput();
+  });
+  document.getElementById('formula-clear')?.addEventListener('click', () => {
+    toggles.querySelectorAll('input').forEach(input => { input.checked = false; });
+    updateOutput();
+  });
+  updateOutput();
+}
+
+renderFormulaBuilder();

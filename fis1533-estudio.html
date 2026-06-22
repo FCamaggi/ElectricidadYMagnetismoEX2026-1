@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIS1533 · Electricidad y Magnetismo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --card: #1a1e2a;
+    --border: #252a38;
+    --accent-blue: #4a9eff;
+    --accent-cyan: #00d4c8;
+    --accent-gold: #f5c842;
+    --accent-violet: #a78bfa;
+    --accent-rose: #f87171;
+    --accent-green: #34d399;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --heading: #f1f5f9;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ── LAYOUT ── */
+  .shell { display: flex; min-height: 100vh; }
+
+  nav {
+    width: 260px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .nav-brand {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand .course { font-family: monospace; font-size: 11px; color: var(--accent-cyan); letter-spacing: 2px; text-transform: uppercase; }
+  .nav-brand h2 { font-size: 14px; color: var(--heading); margin-top: 4px; line-height: 1.3; }
+
+  .nav-section { padding: 12px 0 4px; }
+  .nav-section-label {
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 20px;
+    margin-bottom: 4px;
+  }
+  nav a {
+    display: block;
+    padding: 6px 20px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+  nav a:hover { color: var(--text); background: rgba(255,255,255,0.03); border-left-color: var(--accent-blue); }
+  nav a.active { color: var(--accent-cyan); border-left-color: var(--accent-cyan); }
+
+  main {
+    flex: 1;
+    max-width: 880px;
+    padding: 48px 56px;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    margin-bottom: 56px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-tag { font-family: monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 12px; }
+  .hero h1 { font-size: 42px; font-weight: normal; color: var(--heading); line-height: 1.2; margin-bottom: 8px; }
+  .hero h1 em { font-style: normal; color: var(--accent-blue); }
+  .hero-sub { font-size: 15px; color: var(--muted); }
+  .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .pill {
+    font-family: monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+  .pill-blue { background: rgba(74,158,255,0.12); color: var(--accent-blue); border: 1px solid rgba(74,158,255,0.25); }
+  .pill-cyan { background: rgba(0,212,200,0.12); color: var(--accent-cyan); border: 1px solid rgba(0,212,200,0.25); }
+  .pill-gold { background: rgba(245,200,66,0.12); color: var(--accent-gold); border: 1px solid rgba(245,200,66,0.25); }
+  .pill-violet { background: rgba(167,139,250,0.12); color: var(--accent-violet); border: 1px solid rgba(167,139,250,0.25); }
+
+  /* ── SECTIONS ── */
+  section { margin-bottom: 64px; }
+  .section-eyebrow { font-family: monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .section-title { font-size: 28px; font-weight: normal; color: var(--heading); margin-bottom: 6px; }
+  .section-title span { color: var(--accent-blue); }
+  .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 28px; border-left: 2px solid var(--border); padding-left: 16px; }
+
+  h3 { font-size: 18px; color: var(--heading); margin: 28px 0 12px; font-weight: normal; }
+  h3::before { content: '▸ '; color: var(--accent-cyan); font-size: 14px; }
+  h4 { font-size: 15px; color: var(--accent-gold); margin: 20px 0 8px; font-weight: normal; font-family: monospace; letter-spacing: 0.5px; }
+
+  p { margin-bottom: 14px; color: var(--text); }
+  ul { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; color: var(--text); }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .card-title { font-family: monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+
+  .formula-box {
+    background: rgba(74,158,255,0.06);
+    border: 1px solid rgba(74,158,255,0.2);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 16px 0;
+    text-align: center;
+    font-size: 18px;
+  }
+  .formula-box.gold { background: rgba(245,200,66,0.06); border-color: rgba(245,200,66,0.2); }
+  .formula-box.cyan { background: rgba(0,212,200,0.06); border-color: rgba(0,212,200,0.2); }
+  .formula-box.violet { background: rgba(167,139,250,0.06); border-color: rgba(167,139,250,0.2); }
+  .formula-box.green { background: rgba(52,211,153,0.06); border-color: rgba(52,211,153,0.2); }
+  .formula-label { font-family: monospace; font-size: 11px; color: var(--muted); margin-top: 8px; letter-spacing: 1px; }
+
+  .callout {
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 16px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .callout-body { font-size: 14px; line-height: 1.6; }
+  .callout-body strong { font-weight: bold; }
+  .callout.info { background: rgba(74,158,255,0.08); border: 1px solid rgba(74,158,255,0.2); }
+  .callout.warning { background: rgba(245,200,66,0.08); border: 1px solid rgba(245,200,66,0.2); }
+  .callout.tip { background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2); }
+  .callout.key { background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.2); }
+
+  /* ── GRID ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 16px 0; }
+  @media (max-width: 700px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  /* ── TABLE ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th { background: rgba(255,255,255,0.04); color: var(--accent-cyan); font-family: monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── SVG DIAGRAMS ── */
+  .diagram-wrapper {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+  .diagram-title { font-family: monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  svg text { font-family: monospace; }
+
+  /* ── INTERACTIVE ── */
+  .sim-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .sim-title { font-family: monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 16px; }
+  .sim-controls { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+  .sim-control label { font-family: monospace; font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+  input[type=range] { width: 120px; accent-color: var(--accent-blue); }
+  .sim-value { font-family: monospace; font-size: 13px; color: var(--accent-cyan); }
+  canvas { display: block; border-radius: 8px; background: #0a0c12; }
+  .output-row { display: flex; gap: 24px; margin-top: 12px; flex-wrap: wrap; }
+  .output-item { font-family: monospace; font-size: 13px; }
+  .output-item .lbl { color: var(--muted); font-size: 11px; display: block; }
+  .output-item .val { color: var(--accent-gold); font-size: 16px; }
+
+  /* ── MANO DERECHA ── */
+  .rhr-box {
+    background: linear-gradient(135deg, rgba(167,139,250,0.08), rgba(74,158,255,0.08));
+    border: 1px solid rgba(167,139,250,0.25);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .rhr-steps { list-style: none; padding: 0; }
+  .rhr-steps li { padding: 6px 0; padding-left: 28px; position: relative; font-size: 14px; }
+  .rhr-steps li::before { content: attr(data-n); position: absolute; left: 0; color: var(--accent-violet); font-family: monospace; font-weight: bold; }
+
+  /* ── ANALOG COMPARISON ── */
+  .analog-grid {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 0;
+    margin: 20px 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .analog-col { padding: 20px; }
+  .analog-col.left { background: rgba(74,158,255,0.06); }
+  .analog-col.right { background: rgba(52,211,153,0.06); }
+  .analog-mid { background: var(--border); display: flex; align-items: center; justify-content: center; writing-mode: vertical-lr; font-family: monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+  .analog-head { font-family: monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .analog-col.left .analog-head { color: var(--accent-blue); }
+  .analog-col.right .analog-head { color: var(--accent-green); }
+  .analog-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
+  .analog-row:last-child { border-bottom: none; }
+  .analog-lbl { color: var(--muted); font-family: monospace; font-size: 11px; }
+  .analog-val { color: var(--text); font-family: monospace; font-size: 12px; }
+
+  /* ── PHASE DIAGRAM ── */
+  .phase-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+  .phase-legend-item { display: flex; align-items: center; gap: 6px; font-family: monospace; font-size: 12px; }
+  .phase-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── ACCORDION ── */
+  details { border: 1px solid var(--border); border-radius: var(--radius); margin: 10px 0; overflow: hidden; }
+  summary { padding: 14px 20px; cursor: pointer; font-size: 14px; color: var(--text); background: var(--card); list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  summary::after { content: '▾'; color: var(--muted); transition: transform 0.2s; }
+  details[open] summary::after { transform: rotate(180deg); }
+  details[open] summary { color: var(--accent-cyan); }
+  .details-body { padding: 20px; background: rgba(255,255,255,0.01); font-size: 14px; border-top: 1px solid var(--border); }
+  .details-body p { margin-bottom: 10px; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 32px; margin: 20px 0; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 24px; }
+  .timeline-dot { position: absolute; left: -28px; top: 4px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--accent-blue); background: var(--bg); }
+  .timeline-dot.active { background: var(--accent-cyan); border-color: var(--accent-cyan); }
+  .timeline-label { font-family: monospace; font-size: 11px; color: var(--accent-cyan); margin-bottom: 4px; }
+  .timeline-text { font-size: 14px; color: var(--text); }
+
+  /* ── DIVIDERS ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* ── QUIZ ── */
+  .quiz-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin: 20px 0; }
+  .quiz-question { font-size: 15px; margin-bottom: 16px; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s;
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+  }
+  .quiz-opt:hover { border-color: var(--accent-blue); background: rgba(74,158,255,0.06); }
+  .quiz-opt.correct { border-color: var(--accent-green); background: rgba(52,211,153,0.12); color: var(--accent-green); }
+  .quiz-opt.wrong { border-color: var(--accent-rose); background: rgba(248,113,113,0.12); color: var(--accent-rose); }
+  .quiz-feedback { margin-top: 12px; font-size: 13px; padding: 10px 14px; border-radius: 8px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(52,211,153,0.1); color: var(--accent-green); border: 1px solid rgba(52,211,153,0.3); }
+  .quiz-feedback.wrong { background: rgba(248,113,113,0.1); color: var(--accent-rose); border: 1px solid rgba(248,113,113,0.3); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+<!-- ───────── NAV ───────── -->
+<nav>
+  <div class="nav-brand">
+    <div class="course">FIS1533 · PUC Chile</div>
+    <h2>Electricidad<br>y Magnetismo</h2>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Unidad 3</div>
+    <a href="#magnetismo">Magnetismo</a>
+    <a href="#fuerza">Fuerza Magnética</a>
+    <a href="#movimiento">Mov. en Campo B</a>
+    <a href="#biot-savart">Biot-Savart</a>
+    <a href="#ampere">Ley de Ampère</a>
+    <a href="#faraday">Ley de Faraday</a>
+    <a href="#lenz">Ley de Lenz</a>
+    <a href="#materiales">Materiales</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Unidad 4</div>
+    <a href="#inductancia">Inductancia</a>
+    <a href="#circuito-rl">Circuito RL</a>
+    <a href="#circuito-lc">Circuito LC</a>
+    <a href="#circuito-lrc">Circuito LRC</a>
+    <a href="#ca">Corriente Alterna</a>
+    <a href="#impedancia">Impedancia</a>
+    <a href="#resonancia">Resonancia</a>
+    <a href="#transformadores">Transformadores</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Recursos</div>
+    <a href="#ecuaciones-maxwell">Ec. de Maxwell</a>
+    <a href="#resumen">Formulario</a>
+    <a href="#quiz-section">Quiz</a>
+  </div>
+</nav>
+
+<!-- ───────── MAIN ───────── -->
+<main>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Apunte de Estudio Interactivo</div>
+  <h1>Electricidad y <em>Magnetismo</em></h1>
+  <p class="hero-sub">Unidades 3 y 4 · Prof. Rodrigo López · FIS1533</p>
+  <div class="hero-pills">
+    <span class="pill pill-blue">Magnetostática</span>
+    <span class="pill pill-cyan">Inducción</span>
+    <span class="pill pill-gold">Circuitos LRC</span>
+    <span class="pill pill-violet">Corriente Alterna</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     UNIDAD 3 — MAGNETOSTÁTICA
+     ═══════════════════════════════════════════════ -->
+
+<section id="magnetismo">
+  <div class="section-eyebrow">Unidad 3 · Parte I</div>
+  <h2 class="section-title"><span>Magnetismo</span> y Campo Magnético</h2>
+  <p class="section-desc">El magnetismo surgió como fenómeno experimental hace ~2500 años en Magnesia (actual Turquía). La conexión con la electricidad fue establecida por Oersted en 1819 al observar que una corriente eléctrica desvía una brújula.</p>
+
+  <h3>Campo magnético \(\vec{B}\)</h3>
+  <p>Al igual que las cargas crean un campo eléctrico, las <strong>cargas en movimiento</strong> y las corrientes crean un campo magnético en el espacio circundante.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Campo Eléctrico</div>
+      <p style="font-size:14px">Creado por cargas en reposo. Ejerce fuerza \(\vec{F}=q\vec{E}\) sobre cualquier carga presente.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Campo Magnético</div>
+      <p style="font-size:14px">Creado por cargas <em>en movimiento</em>. Ejerce fuerza sobre cargas o corrientes en movimiento.</p>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-icon">🧭</span>
+    <div class="callout-body"><strong>Monopolos magnéticos no existen.</strong> Al romper un imán siempre obtienes dos imanes con polo N y S, nunca polos aislados. Esto se codifica en la ley de Gauss magnética: \(\oint_S \vec{B}\cdot d\vec{A}=0\).</div>
+  </div>
+
+  <!-- SVG: Dipolo magnético y campo -->
+  <div class="diagram-wrapper">
+    <div class="diagram-title">Líneas de campo de un dipolo magnético</div>
+    <svg viewBox="0 0 600 240" width="100%" height="auto">
+      <defs>
+        <radialGradient id="ng" cx="35%" cy="50%"><stop offset="0%" stop-color="#4a9eff" stop-opacity="0.3"/><stop offset="100%" stop-color="#4a9eff" stop-opacity="0"/></radialGradient>
+        <radialGradient id="sg" cx="65%" cy="50%"><stop offset="0%" stop-color="#f87171" stop-opacity="0.3"/><stop offset="100%" stop-color="#f87171" stop-opacity="0"/></radialGradient>
+        <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L6,3 z" fill="#64748b"/>
+        </marker>
+      </defs>
+      <!-- glow halos -->
+      <ellipse cx="190" cy="120" rx="80" ry="80" fill="url(#ng)" opacity="0.6"/>
+      <ellipse cx="410" cy="120" rx="80" ry="80" fill="url(#sg)" opacity="0.6"/>
+      <!-- magnet body -->
+      <rect x="220" y="95" width="80" height="50" rx="6" fill="#1a1e2a" stroke="#252a38"/>
+      <rect x="220" y="95" width="40" height="50" rx="6" fill="rgba(74,158,255,0.2)" stroke="rgba(74,158,255,0.4)"/>
+      <rect x="260" y="95" width="40" height="50" rx="6" fill="rgba(248,113,113,0.2)" stroke="rgba(248,113,113,0.4)"/>
+      <text x="240" y="126" fill="#4a9eff" font-size="18" text-anchor="middle" font-weight="bold">N</text>
+      <text x="280" y="126" fill="#f87171" font-size="18" text-anchor="middle" font-weight="bold">S</text>
+      <!-- field lines (simplified) -->
+      <!-- top arc -->
+      <path d="M240,95 Q300,30 360,95" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+      <path d="M234,95 Q300,10 366,95" fill="none" stroke="#64748b" stroke-width="1" opacity="0.5"/>
+      <!-- bottom arc -->
+      <path d="M360,145 Q300,210 240,145" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+      <path d="M366,145 Q300,230 234,145" fill="none" stroke="#64748b" stroke-width="1" opacity="0.5"/>
+      <!-- left extension -->
+      <path d="M220,110 Q140,80 120,120 Q140,160 220,130" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+      <!-- right extension -->
+      <path d="M300,110 Q380,80 420,120 Q380,160 300,130" fill="none" stroke="#64748b" stroke-width="1.5"/>
+      <!-- labels -->
+      <text x="120" y="50" fill="#64748b" font-size="11">Las líneas salen del polo N</text>
+      <text x="120" y="65" fill="#64748b" font-size="11">y entran al polo S</text>
+      <text x="120" y="210" fill="#64748b" font-size="11">Fuera del imán, las líneas forman lazos cerrados</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ── FUERZA MAGNÉTICA ── -->
+<section id="fuerza">
+  <div class="section-eyebrow">Unidad 3 · Parte II</div>
+  <h2 class="section-title">Fuerza <span>Magnética</span></h2>
+  <p class="section-desc">La fuerza sobre una carga en movimiento es perpendicular a \(\vec{v}\) y a \(\vec{B}\) — nunca realiza trabajo.</p>
+
+  <div class="formula-box">
+    \[\vec{F}_B = q\vec{v} \times \vec{B}\]
+    <div class="formula-label">Fuerza de Lorentz completa: \(\vec{F} = q\vec{E} + q\vec{v}\times\vec{B}\)</div>
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <h4>Magnitud</h4>
+      <p style="font-size:14px">\(F = |q|vB\sin\phi\)</p>
+      <p style="font-size:13px;color:var(--muted)">donde \(\phi\) es el ángulo entre \(\vec{v}\) y \(\vec{B}\)</p>
+    </div>
+    <div class="card">
+      <h4>Paralela al campo</h4>
+      <p style="font-size:14px">Si \(\phi=0°\): \(F=0\)</p>
+      <p style="font-size:13px;color:var(--muted)">No hay fuerza si v ∥ B</p>
+    </div>
+    <div class="card">
+      <h4>Perpendicular</h4>
+      <p style="font-size:14px">Si \(\phi=90°\): \(F_{max}=qvB\)</p>
+      <p style="font-size:13px;color:var(--muted)">Fuerza máxima</p>
+    </div>
+  </div>
+
+  <div class="rhr-box">
+    <h4 style="margin-top:0">Regla de la Mano Derecha para \(q\vec{v}\times\vec{B}\)</h4>
+    <ol class="rhr-steps">
+      <li data-n="①">Coloca \(\vec{v}\) y \(\vec{B}\) con los orígenes juntos.</li>
+      <li data-n="②">Gira mentalmente \(\vec{v}\) hacia \(\vec{B}\) por el ángulo menor.</li>
+      <li data-n="③">Enrolla los dedos en esa dirección. El <strong>pulgar</strong> apunta en la dirección de \(\vec{F}\) (para carga positiva).</li>
+      <li data-n="④">Para carga negativa, la dirección se <strong>invierte</strong>.</li>
+    </ol>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-icon">⚠️</span>
+    <div class="callout-body"><strong>La fuerza magnética no realiza trabajo.</strong> Como \(\vec{F}_B \perp \vec{v}\) siempre, el trabajo \(dW = \vec{F}_B \cdot d\vec{l} = 0\). Puede cambiar la dirección de la velocidad, pero <em>no la rapidez ni la energía cinética</em>.</div>
+  </div>
+
+  <h3>Diferencias clave: fuerza eléctrica vs. magnética</h3>
+  <table>
+    <tr><th>Característica</th><th>Fuerza Eléctrica</th><th>Fuerza Magnética</th></tr>
+    <tr><td>Dirección</td><td>Paralela a \(\vec{E}\)</td><td>Perpendicular a \(\vec{B}\)</td></tr>
+    <tr><td>Actúa sobre</td><td>Toda carga (estática o en mov.)</td><td>Solo cargas en movimiento</td></tr>
+    <tr><td>Realiza trabajo</td><td>Sí</td><td>No</td></tr>
+    <tr><td>Modifica rapidez</td><td>Sí</td><td>No</td></tr>
+    <tr><td>Unidad del campo</td><td>N/C = V/m</td><td>T = N/(A·m)</td></tr>
+  </table>
+
+  <h3>Fuerza sobre un conductor</h3>
+  <div class="formula-box cyan">
+    \[\vec{F}_B = I\vec{l}\times\vec{B} \quad \longrightarrow \quad d\vec{F}_B = Id\vec{l}\times\vec{B}\]
+    <div class="formula-label">Para un segmento arbitrario: \(\vec{F}_B = I\int_a^b d\vec{l}\times\vec{B}\)</div>
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body"><strong>Torque sobre una espira de corriente:</strong> \(\vec{\tau} = NI\vec{A}\times\vec{B} = N\vec{\mu}\times\vec{B}\). La espira tiende a alinearse con el campo. Este principio es la base de <em>todo motor eléctrico</em>.</div>
+  </div>
+</section>
+
+<!-- ── MOVIMIENTO EN CAMPO B ── -->
+<section id="movimiento">
+  <div class="section-eyebrow">Unidad 3 · Parte III</div>
+  <h2 class="section-title">Movimiento en un <span>Campo Magnético</span></h2>
+  <p class="section-desc">Una carga que entra perpendicular a \(\vec{B}\) recorre un círculo. Si entra con un ángulo, la trayectoria es una hélice.</p>
+
+  <div class="grid2">
+    <div class="formula-box">
+      \[R = \frac{mv}{|q|B}\]
+      <div class="formula-label">Radio de la órbita circular</div>
+    </div>
+    <div class="formula-box cyan">
+      \[\omega_c = \frac{|q|B}{m}\]
+      <div class="formula-label">Frecuencia de ciclotrón</div>
+    </div>
+  </div>
+
+  <!-- SVG: Movimiento circular -->
+  <div class="diagram-wrapper">
+    <div class="diagram-title">Movimiento circular de carga positiva en campo \(\vec{B}\) saliendo de la página</div>
+    <svg viewBox="0 0 500 280" width="100%" height="auto">
+      <defs>
+        <marker id="va" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#4a9eff"/>
+        </marker>
+        <marker id="fa" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#f5c842"/>
+        </marker>
+      </defs>
+      <!-- B field dots (out of page) -->
+      <g fill="#34d399" opacity="0.5">
+        <text x="60" y="50" font-size="16" text-anchor="middle">⊙</text>
+        <text x="130" y="50" font-size="16" text-anchor="middle">⊙</text>
+        <text x="200" y="50" font-size="16" text-anchor="middle">⊙</text>
+        <text x="270" y="50" font-size="16" text-anchor="middle">⊙</text>
+        <text x="340" y="50" font-size="16" text-anchor="middle">⊙</text>
+        <text x="410" y="50" font-size="16" text-anchor="middle">⊙</text>
+        <text x="60" y="110" font-size="16" text-anchor="middle">⊙</text>
+        <text x="130" y="110" font-size="16" text-anchor="middle">⊙</text>
+        <text x="270" y="110" font-size="16" text-anchor="middle">⊙</text>
+        <text x="340" y="110" font-size="16" text-anchor="middle">⊙</text>
+        <text x="410" y="110" font-size="16" text-anchor="middle">⊙</text>
+        <text x="60" y="170" font-size="16" text-anchor="middle">⊙</text>
+        <text x="130" y="170" font-size="16" text-anchor="middle">⊙</text>
+        <text x="200" y="170" font-size="16" text-anchor="middle">⊙</text>
+        <text x="270" y="170" font-size="16" text-anchor="middle">⊙</text>
+        <text x="340" y="170" font-size="16" text-anchor="middle">⊙</text>
+        <text x="410" y="170" font-size="16" text-anchor="middle">⊙</text>
+        <text x="60" y="230" font-size="16" text-anchor="middle">⊙</text>
+        <text x="130" y="230" font-size="16" text-anchor="middle">⊙</text>
+        <text x="200" y="230" font-size="16" text-anchor="middle">⊙</text>
+        <text x="270" y="230" font-size="16" text-anchor="middle">⊙</text>
+        <text x="340" y="230" font-size="16" text-anchor="middle">⊙</text>
+        <text x="410" y="230" font-size="16" text-anchor="middle">⊙</text>
+      </g>
+      <!-- circular orbit -->
+      <circle cx="200" cy="140" r="80" fill="none" stroke="rgba(74,158,255,0.3)" stroke-width="1.5" stroke-dasharray="4,4"/>
+      <!-- particle positions on orbit + velocity arrows -->
+      <!-- top: v pointing right -->
+      <circle cx="200" cy="60" r="7" fill="#4a9eff"/>
+      <line x1="200" y1="60" x2="240" y2="60" stroke="#4a9eff" stroke-width="2" marker-end="url(#va)"/>
+      <!-- right: v pointing down -->
+      <circle cx="280" cy="140" r="7" fill="#4a9eff"/>
+      <line x1="280" y1="140" x2="280" y2="180" stroke="#4a9eff" stroke-width="2" marker-end="url(#va)"/>
+      <!-- bottom: v pointing left -->
+      <circle cx="200" cy="220" r="7" fill="#4a9eff"/>
+      <line x1="200" y1="220" x2="160" y2="220" stroke="#4a9eff" stroke-width="2" marker-end="url(#va)"/>
+      <!-- left: v pointing up -->
+      <circle cx="120" cy="140" r="7" fill="#4a9eff"/>
+      <line x1="120" y1="140" x2="120" y2="100" stroke="#4a9eff" stroke-width="2" marker-end="url(#va)"/>
+      <!-- centripetal forces (toward center) -->
+      <line x1="200" y1="68" x2="200" y2="120" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#fa)"/>
+      <line x1="272" y1="140" x2="220" y2="140" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#fa)"/>
+      <!-- center -->
+      <circle cx="200" cy="140" r="4" fill="var(--muted)"/>
+      <!-- radius label -->
+      <line x1="200" y1="140" x2="280" y2="140" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="240" y="135" fill="var(--muted)" font-size="12">R</text>
+      <!-- legend -->
+      <circle cx="340" cy="100" r="5" fill="#4a9eff"/>
+      <text x="352" y="104" fill="#4a9eff" font-size="12">velocidad v</text>
+      <line x1="336" y1="118" x2="354" y2="118" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="360" y="122" fill="#f5c842" font-size="12">fuerza F</text>
+      <text x="336" y="140" fill="#34d399" font-size="14">⊙</text>
+      <text x="352" y="144" fill="#34d399" font-size="12">campo B (hacia el lector)</text>
+    </svg>
+  </div>
+
+  <h3>Aplicaciones: Selector de velocidad y Espectrómetro de masas</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>Selector de Velocidad</h4>
+      <p style="font-size:14px">Campos \(\vec{E}\) y \(\vec{B}\) perpendiculares. Solo pasan partículas donde \(F_E = F_B\):</p>
+      <div class="formula-box" style="font-size:16px;padding:12px">\[v = \frac{E}{B}\]</div>
+    </div>
+    <div class="card">
+      <h4>Espectrómetro de Masas</h4>
+      <p style="font-size:14px">Combina selector de velocidad con campo \(B'\):</p>
+      <div class="formula-box" style="font-size:16px;padding:12px">\[\frac{m}{q} = \frac{RB'B}{E}\]</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BIOT-SAVART ── -->
+<section id="biot-savart">
+  <div class="section-eyebrow">Unidad 3 · Parte IV</div>
+  <h2 class="section-title">Ley de <span>Biot-Savart</span></h2>
+  <p class="section-desc">Permite calcular el campo magnético producido por una distribución de corriente arbitraria.</p>
+
+  <div class="formula-box">
+    \[d\vec{B} = \frac{\mu_0}{4\pi} \frac{Id\vec{l}\times\hat{r}}{r^2} \qquad \Rightarrow \qquad \vec{B} = \frac{\mu_0}{4\pi}\int\frac{Id\vec{l}\times(\vec{r}-\vec{r}')}{|\vec{r}-\vec{r}'|^3}\]
+    <div class="formula-label">Permeabilidad del vacío: \(\mu_0 = 4\pi\times10^{-7}\text{ T·m/A}\)</div>
+  </div>
+
+  <h3>Casos importantes</h3>
+  <table>
+    <tr><th>Geometría</th><th>Campo \(B\)</th><th>Condición</th></tr>
+    <tr><td>Alambre infinito</td><td>\(\dfrac{\mu_0 I}{2\pi r}\)</td><td>a distancia \(r\)</td></tr>
+    <tr><td>Espira circular (centro)</td><td>\(\dfrac{\mu_0 I}{2a}\)</td><td>radio \(a\)</td></tr>
+    <tr><td>Espira circular (eje)</td><td>\(\dfrac{\mu_0 I a^2}{2(x^2+a^2)^{3/2}}\)</td><td>a distancia \(x\)</td></tr>
+    <tr><td>Solenoide</td><td>\(\mu_0 n I\)</td><td>\(n=N/\ell\) vueltas por metro</td></tr>
+    <tr><td>Toroide</td><td>\(\dfrac{\mu_0 N I}{2\pi r}\)</td><td>a distancia \(r\) del eje</td></tr>
+  </table>
+
+  <div class="callout key">
+    <span class="callout-icon">🔑</span>
+    <div class="callout-body"><strong>Fuerza entre conductores paralelos:</strong> \(\dfrac{F}{L} = \dfrac{\mu_0 I I'}{2\pi d}\). Corrientes en el mismo sentido: <em>se atraen</em>. Corrientes en sentidos opuestos: <em>se repelen</em>. Esta fue la definición original del Ampère en el SI.</div>
+  </div>
+</section>
+
+<!-- ── LEY DE AMPÈRE ── -->
+<section id="ampere">
+  <div class="section-eyebrow">Unidad 3 · Parte V</div>
+  <h2 class="section-title">Ley de <span>Ampère</span></h2>
+  <p class="section-desc">Análoga a la Ley de Gauss para \(\vec{E}\), pero para \(\vec{B}\): relaciona la integral de línea del campo magnético con la corriente encerrada.</p>
+
+  <div class="formula-box gold">
+    \[\oint \vec{B}\cdot d\vec{l} = \mu_0 I_\text{enc}\]
+    <div class="formula-label">4ª Ecuación de Maxwell (incompleta sin la corriente de desplazamiento)</div>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-icon">📐</span>
+    <div class="callout-body">
+      <strong>Estrategia para aplicar Ampère:</strong><br>
+      1. Elegir una <em>amperiana</em> (trayectoria cerrada) que explote la simetría del problema.<br>
+      2. Calcular \(I_\text{enc}\) (corriente que atraviesa cualquier superficie limitada por la amperiana).<br>
+      3. Sacar \(B\) de la integral si \(B\) es constante sobre la trayectoria.
+    </div>
+  </div>
+
+  <!-- SVG: Campo dentro y fuera de un conductor cilíndrico -->
+  <div class="diagram-wrapper">
+    <div class="diagram-title">B(r) dentro y fuera de un conductor cilíndrico de radio R</div>
+    <svg viewBox="0 0 500 200" width="100%" height="auto">
+      <defs>
+        <linearGradient id="bgr" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#4a9eff" stop-opacity="0.1"/>
+          <stop offset="50%" stop-color="#4a9eff" stop-opacity="0.05"/>
+          <stop offset="100%" stop-color="#4a9eff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- axes -->
+      <line x1="40" y1="160" x2="460" y2="160" stroke="var(--border)" stroke-width="1.5"/>
+      <line x1="40" y1="20" x2="40" y2="165" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="465" y="164" fill="var(--muted)" font-size="12">r</text>
+      <text x="30" y="18" fill="var(--muted)" font-size="12">B</text>
+      <!-- R marker -->
+      <line x1="200" y1="155" x2="200" y2="165" stroke="var(--muted)" stroke-width="1"/>
+      <text x="194" y="178" fill="var(--muted)" font-size="12">R</text>
+      <!-- region labels -->
+      <text x="100" y="190" fill="rgba(74,158,255,0.7)" font-size="11" text-anchor="middle">dentro (r&lt;R)</text>
+      <text x="330" y="190" fill="rgba(245,200,66,0.7)" font-size="11" text-anchor="middle">fuera (r&gt;R)</text>
+      <!-- inside region: linear B ∝ r -->
+      <line x1="40" y1="160" x2="200" y2="60" stroke="#4a9eff" stroke-width="2.5"/>
+      <rect x="40" y="60" width="160" height="100" fill="url(#bgr)" opacity="0.5"/>
+      <!-- outside region: B ∝ 1/r -->
+      <path d="M200,60 Q250,72 300,95 Q370,130 460,155" fill="none" stroke="#f5c842" stroke-width="2.5"/>
+      <!-- peak -->
+      <circle cx="200" cy="60" r="5" fill="#4a9eff"/>
+      <!-- formula inside -->
+      <text x="85" y="120" fill="rgba(74,158,255,0.8)" font-size="13">B ∝ r</text>
+      <text x="85" y="136" fill="rgba(74,158,255,0.6)" font-size="11">μ₀Ir/(2πR²)</text>
+      <!-- formula outside -->
+      <text x="290" y="110" fill="rgba(245,200,66,0.8)" font-size="13">B ∝ 1/r</text>
+      <text x="290" y="126" fill="rgba(245,200,66,0.6)" font-size="11">μ₀I/(2πr)</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ── FARADAY ── -->
+<section id="faraday">
+  <div class="section-eyebrow">Unidad 3 · Parte VI</div>
+  <h2 class="section-title">Ley de <span>Faraday</span></h2>
+  <p class="section-desc">Un <em>flujo magnético variable</em> induce una fem. Es la base de generadores, transformadores y motores.</p>
+
+  <div class="formula-box violet">
+    \[\mathcal{E} = -N\frac{d\Phi_B}{dt}, \qquad \Phi_B = \int\vec{B}\cdot d\vec{A}\]
+    <div class="formula-label">El signo menos es la Ley de Lenz: la fem se opone al cambio del flujo</div>
+  </div>
+
+  <h3>¿Qué puede cambiar el flujo?</h3>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot active"></div>
+      <div class="timeline-label">Cambio en |B|</div>
+      <div class="timeline-text">Mover un imán acercando/alejando la bobina.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-label">Cambio en el área</div>
+      <div class="timeline-text">Deformar o comprimir la espira (generador de conductor corredizo).</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-label">Cambio en el ángulo</div>
+      <div class="timeline-text">Rotar la espira: \(\Phi_B = NBA\cos(\omega t)\) → fem \(= NBA\omega\sin(\omega t)\). ¡Principio del alternador!</div>
+    </div>
+  </div>
+
+  <details>
+    <summary>📌 Ejemplo: Generador de conductor corredizo</summary>
+    <div class="details-body">
+      <p>Una varilla de longitud \(L\) se mueve con velocidad \(v\) sobre rieles en un campo \(\vec{B}\) perpendicular al plano.</p>
+      <p>El área del circuito crece a razón \(dA/dt = Lv\), por lo que:</p>
+      <p style="text-align:center;font-size:18px">\[\mathcal{E} = -\frac{d\Phi_B}{dt} = -BL\frac{dx}{dt} = BLv\]</p>
+      <p>Si el circuito tiene resistencia \(R\), la corriente es \(I = BLv/R\) y la potencia disipada es \(P = I^2R = B^2L^2v^2/R\), igual al trabajo externo necesario para mover la varilla.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── LEY DE LENZ ── -->
+<section id="lenz">
+  <div class="section-eyebrow">Unidad 3 · Parte VII</div>
+  <h2 class="section-title">Ley de <span>Lenz</span></h2>
+  <p class="section-desc">La dirección de la fem inducida siempre se opone a la causa que la produce. Es consecuencia directa de la conservación de la energía.</p>
+
+  <div class="callout key">
+    <span class="callout-icon">⚡</span>
+    <div class="callout-body"><strong>Ley de Lenz:</strong> "La corriente inducida en una espira está en la dirección que crea un campo magnético que se opone al cambio en el flujo magnético."</div>
+  </div>
+
+  <!-- SVG: casos de lenz -->
+  <div class="diagram-wrapper">
+    <div class="diagram-title">Dirección de la corriente inducida (Ley de Lenz)</div>
+    <svg viewBox="0 0 500 180" width="100%" height="auto">
+      <!-- Case A: B increasing downward -->
+      <g transform="translate(20,20)">
+        <text x="55" y="14" fill="var(--muted)" font-size="11" text-anchor="middle">Caso A</text>
+        <rect x="15" y="20" width="80" height="60" rx="4" fill="none" stroke="#4a9eff" stroke-width="1.5"/>
+        <!-- arrows inside pointing down (B increasing) -->
+        <text x="55" y="42" fill="#4a9eff" font-size="22" text-anchor="middle">↓↓</text>
+        <text x="55" y="62" fill="#4a9eff" font-size="10" text-anchor="middle">B creciente↓</text>
+        <!-- induced current CCW (to oppose) = field upward inside -->
+        <path d="M55,20 Q90,10 95,50 Q90,90 55,80 Q20,90 15,50 Q20,10 55,20" fill="none" stroke="#f5c842" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="55" y="108" fill="#f5c842" font-size="11" text-anchor="middle">I antihoraria</text>
+        <text x="55" y="120" fill="var(--muted)" font-size="10" text-anchor="middle">B inducido ↑ (se opone)</text>
+      </g>
+      <!-- Case B: B decreasing downward -->
+      <g transform="translate(170,20)">
+        <text x="55" y="14" fill="var(--muted)" font-size="11" text-anchor="middle">Caso B</text>
+        <rect x="15" y="20" width="80" height="60" rx="4" fill="none" stroke="#4a9eff" stroke-width="1.5"/>
+        <text x="55" y="42" fill="rgba(74,158,255,0.4)" font-size="18" text-anchor="middle">↓</text>
+        <text x="55" y="62" fill="rgba(74,158,255,0.6)" font-size="10" text-anchor="middle">B decreciente↓</text>
+        <!-- induced current CW to oppose = field downward -->
+        <path d="M55,20 Q20,10 15,50 Q20,90 55,80 Q90,90 95,50 Q90,10 55,20" fill="none" stroke="#34d399" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="55" y="108" fill="#34d399" font-size="11" text-anchor="middle">I horaria</text>
+        <text x="55" y="120" fill="var(--muted)" font-size="10" text-anchor="middle">B inducido ↓ (mantiene)</text>
+      </g>
+      <!-- Analogy -->
+      <g transform="translate(330,20)">
+        <rect x="0" y="15" width="155" height="130" rx="6" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.2)"/>
+        <text x="77" y="35" fill="#a78bfa" font-size="11" text-anchor="middle">Analogía mecánica</text>
+        <text x="77" y="60" fill="var(--text)" font-size="13" text-anchor="middle">La inducción</text>
+        <text x="77" y="78" fill="var(--text)" font-size="13" text-anchor="middle">es como la</text>
+        <text x="77" y="96" fill="var(--accent-cyan)" font-size="14" text-anchor="middle">inercia eléctrica</text>
+        <text x="77" y="118" fill="var(--muted)" font-size="11" text-anchor="middle">resiste cambios</text>
+        <text x="77" y="132" fill="var(--muted)" font-size="11" text-anchor="middle">en el flujo</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ── MATERIALES MAGNÉTICOS ── -->
+<section id="materiales">
+  <div class="section-eyebrow">Unidad 3 · Parte VIII</div>
+  <h2 class="section-title">Materiales <span>Magnéticos</span></h2>
+  <p class="section-desc">Los materiales responden al campo externo de tres maneras cualitativamente distintas, según su estructura electrónica.</p>
+
+  <div class="grid3">
+    <div class="card" style="border-color:rgba(74,158,255,0.3)">
+      <h4 style="color:var(--accent-blue)">Paramagnéticos</h4>
+      <p style="font-size:13px">Momentos atómicos netos. Se alinean <em>con</em> el campo externo.</p>
+      <p style="font-size:13px;color:var(--muted)">\(K_m\) entre 1.00001 y 1.003</p>
+      <p style="font-size:13px;color:var(--muted)">Ley de Curie: \(M = C\dfrac{B}{T}\)</p>
+    </div>
+    <div class="card" style="border-color:rgba(248,113,113,0.3)">
+      <h4 style="color:var(--accent-rose)">Diamagnéticos</h4>
+      <p style="font-size:13px">Sin momento neto. El campo externo <em>induce</em> momentos opuestos a él.</p>
+      <p style="font-size:13px;color:var(--muted)">\(K_m\) ligeramente &lt; 1</p>
+      <p style="font-size:13px;color:var(--muted)">\(\chi_m < 0\) (susceptibilidad negativa)</p>
+    </div>
+    <div class="card" style="border-color:rgba(245,200,66,0.3)">
+      <h4 style="color:var(--accent-gold)">Ferromagnéticos</h4>
+      <p style="font-size:13px"><em>Dominios</em> alineados. Mantienen magnetización sin campo externo.</p>
+      <p style="font-size:13px;color:var(--muted)">\(K_m\) de 1000 a 100,000</p>
+      <p style="font-size:13px;color:var(--muted)">Histéresis: magnetización permanente</p>
+    </div>
+  </div>
+
+  <!-- SVG: Curva de histéresis -->
+  <div class="diagram-wrapper">
+    <div class="diagram-title">Curva de histéresis ferromagnética</div>
+    <svg viewBox="0 0 400 300" width="100%" height="auto">
+      <!-- axes -->
+      <line x1="50" y1="150" x2="370" y2="150" stroke="var(--border)" stroke-width="1.5"/>
+      <line x1="200" y1="20" x2="200" y2="280" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="375" y="154" fill="var(--muted)" font-size="12">H</text>
+      <text x="195" y="16" fill="var(--muted)" font-size="12">M</text>
+      <!-- hysteresis loop -->
+      <path d="
+        M200,150
+        C230,150 310,110 330,60
+        C350,20 350,20 350,20
+        C350,20 360,30 340,60
+        C330,80 300,100 270,110
+        C250,116 230,120 200,120
+        C170,120 150,124 130,130
+        C110,136 80,150 70,180
+        C60,210 70,260 200,260
+        C260,260 300,240 320,210
+        C340,180 340,150 340,150
+      " fill="none" stroke="rgba(245,200,66,0.6)" stroke-width="1.5"/>
+      <!-- main loop path -->
+      <path d="
+        M200,150
+        Q270,140 320,80
+        Q350,40 350,20
+        Q340,25 310,40
+        Q270,60 230,75
+        Q200,85 160,90
+        Q120,100 80,130
+        Q50,160 50,200
+        Q50,240 90,255
+        Q130,270 200,270
+        Q260,270 300,250
+        Q340,230 350,200
+        Q355,175 340,160
+        Q320,148 200,150
+      " fill="rgba(245,200,66,0.04)" stroke="#f5c842" stroke-width="2"/>
+      <!-- reverse side -->
+      <path d="
+        M200,150
+        Q130,160 80,220
+        Q55,255 50,280
+        Q60,275 90,260
+        Q130,240 160,225
+        Q185,215 210,210
+        Q260,200 300,170
+        Q340,140 350,110
+        Q355,80 340,70
+        Q325,60 200,150
+      " fill="rgba(245,200,66,0.04)" stroke="#f5c842" stroke-width="2"/>
+      <!-- labels -->
+      <text x="355" y="22" fill="var(--muted)" font-size="11">Sat.</text>
+      <text x="55" y="285" fill="var(--muted)" font-size="11">Sat.−</text>
+      <!-- Br (remanence) -->
+      <circle cx="200" cy="120" r="4" fill="#34d399"/>
+      <text x="208" y="116" fill="#34d399" font-size="11">Br (remanencia)</text>
+      <!-- Hc (coercivity) -->
+      <circle cx="133" cy="150" r="4" fill="#f87171"/>
+      <text x="105" y="142" fill="#f87171" font-size="11">Hc (coercitividad)</text>
+      <!-- arrows on loop -->
+      <text x="275" y="56" fill="#f5c842" font-size="16">→</text>
+      <text x="97" y="248" fill="#f5c842" font-size="16">←</text>
+    </svg>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     UNIDAD 4 — INDUCTANCIA Y CA
+     ═══════════════════════════════════════════════ -->
+
+<section id="inductancia">
+  <div class="section-eyebrow">Unidad 4 · Parte I</div>
+  <h2 class="section-title"><span>Inductancia</span></h2>
+  <p class="section-desc">Cuando la corriente en un circuito varía, el flujo magnético cambia y aparece una fem autoinducida que se opone al cambio. El inductor es el almacenador de energía magnética.</p>
+
+  <div class="grid2">
+    <div>
+      <h4>Inductancia Mutua</h4>
+      <div class="formula-box" style="font-size:15px;padding:14px">
+        \[M = \frac{N_2\Phi_{B2}}{I_1} = \frac{N_1\Phi_{B1}}{I_2}\]
+        \[\mathcal{E}_2 = -M\frac{dI_1}{dt}\]
+      </div>
+      <p style="font-size:13px;color:var(--muted)">Unidad: \(1\,\text{H} = 1\,\text{Wb/A} = 1\,\Omega\text{s}\)</p>
+    </div>
+    <div>
+      <h4>Autoinductancia</h4>
+      <div class="formula-box cyan" style="font-size:15px;padding:14px">
+        \[L = \frac{N\Phi_B}{I}\]
+        \[\mathcal{E} = -L\frac{dI}{dt}\]
+      </div>
+      <p style="font-size:13px;color:var(--muted)">Para un solenoide: \(L = \mu_0 n^2 V\)</p>
+    </div>
+  </div>
+
+  <h3>Energía almacenada en el inductor</h3>
+  <div class="formula-box gold">
+    \[U = \frac{1}{2}LI^2 \qquad u = \frac{B^2}{2\mu_0}\]
+    <div class="formula-label">Densidad de energía magnética (análoga a \(u_E = \varepsilon_0 E^2/2\) para campo eléctrico)</div>
+  </div>
+
+  <!-- Comparación inductor vs. resistor -->
+  <div class="analog-grid">
+    <div class="analog-col left">
+      <div class="analog-head">Resistor</div>
+      <div class="analog-row"><span class="analog-lbl">Caída de potencial</span><span class="analog-val">V = iR</span></div>
+      <div class="analog-row"><span class="analog-lbl">Energía</span><span class="analog-val">Disipada (calor)</span></div>
+      <div class="analog-row"><span class="analog-lbl">Se opone a</span><span class="analog-val">La corriente i</span></div>
+      <div class="analog-row"><span class="analog-lbl">Elemento</span><span class="analog-val">Disipador</span></div>
+    </div>
+    <div class="analog-mid">≠</div>
+    <div class="analog-col right">
+      <div class="analog-head">Inductor</div>
+      <div class="analog-row"><span class="analog-lbl">Caída de potencial</span><span class="analog-val">V = L(di/dt)</span></div>
+      <div class="analog-row"><span class="analog-lbl">Energía</span><span class="analog-val">Almacenada (campo B)</span></div>
+      <div class="analog-row"><span class="analog-lbl">Se opone a</span><span class="analog-val">Cambios en i</span></div>
+      <div class="analog-row"><span class="analog-lbl">Elemento</span><span class="analog-val">Almacenador</span></div>
+    </div>
+  </div>
+
+  <h3>Comportamiento del inductor en circuitos</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>Corriente constante</h4>
+      <p style="font-size:14px">Si \(dI/dt = 0\) → \(\mathcal{E} = 0\). El inductor actúa como un <em>cortocircuito</em> en DC estacionaria.</p>
+    </div>
+    <div class="card">
+      <h4>Corriente variable</h4>
+      <p style="font-size:14px">Si \(I\) crece: \(V_{ab} > 0\) (caída). Si \(I\) decrece: \(V_{ab} < 0\) (subida de potencial).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CIRCUITO RL ── -->
+<section id="circuito-rl">
+  <div class="section-eyebrow">Unidad 4 · Parte II</div>
+  <h2 class="section-title">Circuito <span>RL</span></h2>
+  <p class="section-desc">Al conectar (o desconectar) una fuente en un circuito RL, la corriente varía exponencialmente con constante de tiempo \(\tau = L/R\).</p>
+
+  <div class="grid2">
+    <div class="formula-box" style="font-size:15px">
+      \[i(t) = \frac{\mathcal{E}}{R}\left[1 - e^{-(R/L)t}\right]\]
+      <div class="formula-label">Crecimiento de corriente</div>
+    </div>
+    <div class="formula-box cyan" style="font-size:15px">
+      \[i(t) = I_0\,e^{-(R/L)t}\]
+      <div class="formula-label">Decaimiento de corriente</div>
+    </div>
+  </div>
+
+  <div class="formula-box violet">
+    \[\tau = \frac{L}{R}\]
+    <div class="formula-label">Constante de tiempo: en \(t=\tau\), la corriente alcanza el 63.2% de su valor final (crecimiento) o cae al 36.8% (decaimiento)</div>
+  </div>
+
+  <!-- Interactive RL simulation -->
+  <div class="sim-box">
+    <div class="sim-title">⚡ Simulador Circuito RL — Crecimiento de Corriente</div>
+    <div class="sim-controls">
+      <div>
+        <label for="emf">ε (V)</label>
+        <input type="range" id="emf" min="1" max="20" value="10" step="0.5">
+        <span class="sim-value" id="emf-val">10.0 V</span>
+      </div>
+      <div>
+        <label for="R-val">R (Ω)</label>
+        <input type="range" id="R-val" min="0.5" max="20" value="5" step="0.5">
+        <span class="sim-value" id="R-display">5.0 Ω</span>
+      </div>
+      <div>
+        <label for="L-val">L (H)</label>
+        <input type="range" id="L-val" min="0.1" max="10" value="2" step="0.1">
+        <span class="sim-value" id="L-display">2.0 H</span>
+      </div>
+    </div>
+    <canvas id="rl-canvas" width="720" height="200"></canvas>
+    <div class="output-row">
+      <div class="output-item"><span class="lbl">τ = L/R</span><span class="val" id="tau-out">0.40 s</span></div>
+      <div class="output-item"><span class="lbl">I_final = ε/R</span><span class="val" id="ifinal-out">2.00 A</span></div>
+      <div class="output-item"><span class="lbl">U_L máx = ½LI²</span><span class="val" id="ul-out">4.00 J</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CIRCUITO LC ── -->
+<section id="circuito-lc">
+  <div class="section-eyebrow">Unidad 4 · Parte III</div>
+  <h2 class="section-title">Circuito <span>LC</span></h2>
+  <p class="section-desc">El capacitor y el inductor intercambian energía indefinidamente (sin resistencia): energía eléctrica ↔ energía magnética. Análogo al oscilador masa-resorte.</p>
+
+  <div class="formula-box">
+    \[\frac{d^2q}{dt^2} + \frac{1}{LC}q = 0 \qquad \Rightarrow \qquad q(t) = Q_\text{máx}\cos(\omega_0 t + \phi)\]
+    <div class="formula-label">Frecuencia natural de oscilación: \(\omega_0 = 1/\sqrt{LC}\)</div>
+  </div>
+
+  <!-- Analogía mecánica -->
+  <div class="analog-grid">
+    <div class="analog-col left">
+      <div class="analog-head">Masa-Resorte</div>
+      <div class="analog-row"><span class="analog-lbl">Posición x</span><span class="analog-val">↔ carga q</span></div>
+      <div class="analog-row"><span class="analog-lbl">Velocidad v</span><span class="analog-val">↔ corriente i</span></div>
+      <div class="analog-row"><span class="analog-lbl">Masa m</span><span class="analog-val">↔ inductancia L</span></div>
+      <div class="analog-row"><span class="analog-lbl">Constante k</span><span class="analog-val">↔ 1/C</span></div>
+      <div class="analog-row"><span class="analog-lbl">E. cinética ½mv²</span><span class="analog-val">↔ ½Li²</span></div>
+      <div class="analog-row"><span class="analog-lbl">E. potencial ½kx²</span><span class="analog-val">↔ q²/2C</span></div>
+      <div class="analog-row"><span class="analog-lbl">ω = √(k/m)</span><span class="analog-val">↔ 1/√(LC)</span></div>
+    </div>
+    <div class="analog-mid">≡</div>
+    <div class="analog-col right">
+      <div class="analog-head">Circuito LC</div>
+      <div class="analog-row"><span class="analog-lbl">Carga q</span><span class="analog-val">↔ posición x</span></div>
+      <div class="analog-row"><span class="analog-lbl">Corriente i</span><span class="analog-val">↔ velocidad v</span></div>
+      <div class="analog-row"><span class="analog-lbl">Inductancia L</span><span class="analog-val">↔ masa m</span></div>
+      <div class="analog-row"><span class="analog-lbl">1/C</span><span class="analog-val">↔ constante k</span></div>
+      <div class="analog-row"><span class="analog-lbl">½Li²</span><span class="analog-val">↔ E. cinética</span></div>
+      <div class="analog-row"><span class="analog-lbl">q²/2C</span><span class="analog-val">↔ E. potencial</span></div>
+      <div class="analog-row"><span class="analog-lbl">ω = 1/√(LC)</span><span class="analog-val">↔ √(k/m)</span></div>
+    </div>
+  </div>
+
+  <!-- LC animation via canvas -->
+  <div class="sim-box">
+    <div class="sim-title">🔄 Oscilación LC — Intercambio de Energía</div>
+    <canvas id="lc-canvas" width="720" height="180"></canvas>
+    <div class="phase-legend">
+      <div class="phase-legend-item"><div class="phase-dot" style="background:#4a9eff"></div>Carga q(t)</div>
+      <div class="phase-legend-item"><div class="phase-dot" style="background:#f5c842"></div>Corriente i(t)</div>
+      <div class="phase-legend-item"><div class="phase-dot" style="background:#34d399"></div>Energía en C (U_E)</div>
+      <div class="phase-legend-item"><div class="phase-dot" style="background:#a78bfa"></div>Energía en L (U_B)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CIRCUITO LRC ── -->
+<section id="circuito-lrc">
+  <div class="section-eyebrow">Unidad 4 · Parte IV</div>
+  <h2 class="section-title">Circuito <span>LRC</span></h2>
+  <p class="section-desc">La resistencia disipa energía → oscilaciones amortiguadas. Análogo a la fricción en el sistema masa-resorte.</p>
+
+  <div class="formula-box">
+    \[\frac{d^2q}{dt^2} + \frac{R}{L}\frac{dq}{dt} + \frac{1}{LC}q = 0\]
+  </div>
+
+  <div class="formula-box cyan" style="font-size:14px">
+    \[q(t) = Ae^{-(R/2L)t}\cos\!\left(\sqrt{\frac{1}{LC}-\frac{R^2}{4L^2}}\,t + \phi\right)\]
+    <div class="formula-label">Solución subamortiguada</div>
+  </div>
+
+  <div class="grid3">
+    <div class="card" style="border-color:rgba(74,158,255,0.3)">
+      <h4 style="color:var(--accent-blue)">Subamortiguado</h4>
+      <p style="font-size:13px">\(R^2 < 4L/C\)</p>
+      <p style="font-size:13px;color:var(--muted)">Oscila con amplitud decreciente</p>
+    </div>
+    <div class="card" style="border-color:rgba(245,200,66,0.3)">
+      <h4 style="color:var(--accent-gold)">Críticamente amortiguado</h4>
+      <p style="font-size:13px">\(R^2 = 4L/C\)</p>
+      <p style="font-size:13px;color:var(--muted)">Retorno más rápido al equilibrio</p>
+    </div>
+    <div class="card" style="border-color:rgba(248,113,113,0.3)">
+      <h4 style="color:var(--accent-rose)">Sobreamortiguado</h4>
+      <p style="font-size:13px">\(R^2 > 4L/C\)</p>
+      <p style="font-size:13px;color:var(--muted)">Retorno lento, sin oscilaciones</p>
+    </div>
+  </div>
+
+  <!-- LRC canvas -->
+  <div class="sim-box">
+    <div class="sim-title">📉 Comparación de modos de amortiguamiento</div>
+    <canvas id="lrc-canvas" width="720" height="180"></canvas>
+    <div class="phase-legend">
+      <div class="phase-legend-item"><div class="phase-dot" style="background:#4a9eff"></div>Subamortiguado (R pequeño)</div>
+      <div class="phase-legend-item"><div class="phase-dot" style="background:#f5c842"></div>Críticamente amortiguado</div>
+      <div class="phase-legend-item"><div class="phase-dot" style="background:#f87171"></div>Sobreamortiguado (R grande)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CORRIENTE ALTERNA ── -->
+<section id="ca">
+  <div class="section-eyebrow">Unidad 4 · Parte V</div>
+  <h2 class="section-title">Corriente <span>Alterna</span></h2>
+  <p class="section-desc">Las tensiones y corrientes varían sinusoidalmente. Se usan fasores (vectores giratorios en el plano complejo) para analizar circuitos.</p>
+
+  <div class="grid2">
+    <div class="formula-box" style="font-size:15px">
+      \[v(t) = V\cos\omega t\]
+      \[V_\text{rms} = \frac{V}{\sqrt{2}}\]
+      <div class="formula-label">Voltaje instantáneo y eficaz (rms)</div>
+    </div>
+    <div class="formula-box cyan" style="font-size:15px">
+      \[\tilde{v}(t) = V e^{i\omega t}\]
+      \[v(t) = \text{Re}\{\tilde{v}(t)\}\]
+      <div class="formula-label">Representación fasorial compleja</div>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-icon">🏠</span>
+    <div class="callout-body"><strong>Chile: \(V_\text{rms} = 220\,\text{V}\) a \(f=50\,\text{Hz}\)</strong>. El voltaje instantáneo varía entre \(-311\,\text{V}\) y \(+311\,\text{V}\), pero el valor eficaz de 220 V es el que entrega la misma potencia que 220 V de corriente continua.</div>
+  </div>
+
+  <h3>Elementos en CA: fases y reactancias</h3>
+  <table>
+    <tr><th>Elemento</th><th>Impedancia Z</th><th>Reactancia</th><th>Fase (V respecto a I)</th><th>Memoria</th></tr>
+    <tr><td>Resistor R</td><td>R</td><td>—</td><td>En fase (0°)</td><td>—</td></tr>
+    <tr><td>Inductor L</td><td>\(i\omega L\)</td><td>\(X_L = \omega L\)</td><td>Adelanta 90°</td><td><strong>ELI</strong></td></tr>
+    <tr><td>Capacitor C</td><td>\(1/(i\omega C)\)</td><td>\(X_C = -1/(\omega C)\)</td><td>Se retrasa 90°</td><td><strong>ICE</strong></td></tr>
+  </table>
+
+  <div class="callout key">
+    <span class="callout-icon">🔑</span>
+    <div class="callout-body"><strong>Mnemotécnica ELI the ICE man:</strong> En un inductor (L), el voltaje E va antes que la corriente I → "ELI". En un capacitor (C), la corriente I va antes que el voltaje E → "ICE".</div>
+  </div>
+
+  <!-- SVG Fasor diagram -->
+  <div class="diagram-wrapper">
+    <div class="diagram-title">Diagrama de fasores — Circuito RLC en serie</div>
+    <svg viewBox="0 0 500 280" width="100%" height="auto">
+      <!-- origin -->
+      <line x1="250" y1="140" x2="430" y2="140" stroke="#64748b" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="250" y1="20" x2="250" y2="260" stroke="#64748b" stroke-width="1" stroke-dasharray="4,3"/>
+      <!-- I phasor (reference, horizontal) -->
+      <line x1="250" y1="140" x2="380" y2="140" stroke="#34d399" stroke-width="2.5"/>
+      <polygon points="380,140 370,135 370,145" fill="#34d399"/>
+      <text x="385" y="145" fill="#34d399" font-size="12">I (ref)</text>
+      <!-- VR (in phase with I) -->
+      <line x1="250" y1="140" x2="340" y2="140" stroke="#4a9eff" stroke-width="2"/>
+      <text x="295" y="132" fill="#4a9eff" font-size="12">V_R</text>
+      <!-- VL (90° ahead, pointing up) -->
+      <line x1="250" y1="140" x2="250" y2="60" stroke="#f5c842" stroke-width="2"/>
+      <polygon points="250,60 245,72 255,72" fill="#f5c842"/>
+      <text x="256" y="60" fill="#f5c842" font-size="12">V_L (+90°)</text>
+      <!-- VC (90° behind, pointing down) -->
+      <line x1="250" y1="140" x2="250" y2="210" stroke="#f87171" stroke-width="2"/>
+      <polygon points="250,210 245,198 255,198" fill="#f87171"/>
+      <text x="256" y="225" fill="#f87171" font-size="12">V_C (−90°)</text>
+      <!-- V total (resultant) -->
+      <line x1="250" y1="140" x2="340" y2="78" stroke="white" stroke-width="2.5" stroke-dasharray="none"/>
+      <polygon points="340,78 330,82 332,92" fill="white"/>
+      <text x="344" y="74" fill="white" font-size="13">V_total</text>
+      <!-- angle phi -->
+      <path d="M 280,140 A 30,30 0 0,0 263,119" fill="none" stroke="var(--muted)" stroke-width="1"/>
+      <text x="285" y="126" fill="var(--muted)" font-size="12">φ</text>
+      <!-- net reactance indicator -->
+      <line x1="340" y1="140" x2="340" y2="78" stroke="rgba(245,200,66,0.4)" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="345" y="112" fill="rgba(245,200,66,0.6)" font-size="11">X_L−X_C</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ── IMPEDANCIA ── -->
+<section id="impedancia">
+  <div class="section-eyebrow">Unidad 4 · Parte VI</div>
+  <h2 class="section-title">Impedancia y Potencia en <span>CA</span></h2>
+  <p class="section-desc">La impedancia generaliza la resistencia a los circuitos de CA con números complejos.</p>
+
+  <div class="formula-box gold">
+    \[Z = R + i\!\left(\omega L - \frac{1}{\omega C}\right), \quad |Z| = \sqrt{R^2 + \left(\omega L - \frac{1}{\omega C}\right)^2}\]
+    \[\phi = \arctan\!\left(\frac{\omega L - 1/(\omega C)}{R}\right)\]
+  </div>
+
+  <div class="grid2">
+    <div>
+      <h4>Impedancias en serie</h4>
+      <div class="formula-box" style="font-size:15px;padding:12px">\[Z = Z_1 + Z_2 + \cdots\]</div>
+      <p style="font-size:13px;color:var(--muted)">¡Suma como números complejos!</p>
+    </div>
+    <div>
+      <h4>Impedancias en paralelo</h4>
+      <div class="formula-box" style="font-size:15px;padding:12px">\[\frac{1}{Z} = \frac{1}{Z_1} + \frac{1}{Z_2} + \cdots\]</div>
+      <p style="font-size:13px;color:var(--muted)">Mismo voltaje, suma de corrientes</p>
+    </div>
+  </div>
+
+  <h3>Potencia en CA</h3>
+  <div class="grid3">
+    <div class="card" style="border-color:rgba(74,158,255,0.3)">
+      <h4 style="color:var(--accent-blue)">Resistor</h4>
+      <p style="font-size:13px">\(P_\text{med} = V_\text{rms}I_\text{rms} = I_\text{rms}^2R\)</p>
+      <p style="font-size:12px;color:var(--muted)">Siempre positiva — disipa calor</p>
+    </div>
+    <div class="card" style="border-color:rgba(245,200,66,0.3)">
+      <h4 style="color:var(--accent-gold)">Inductor</h4>
+      <p style="font-size:13px">\(P_\text{med} = 0\)</p>
+      <p style="font-size:12px;color:var(--muted)">Almacena y devuelve energía. v adelanta 90° a i.</p>
+    </div>
+    <div class="card" style="border-color:rgba(248,113,113,0.3)">
+      <h4 style="color:var(--accent-rose)">Capacitor</h4>
+      <p style="font-size:13px">\(P_\text{med} = 0\)</p>
+      <p style="font-size:12px;color:var(--muted)">Almacena y devuelve energía. v se retrasa 90°.</p>
+    </div>
+  </div>
+
+  <div class="formula-box violet">
+    \[\langle P \rangle = V_\text{rms}I_\text{rms}\cos\phi\]
+    <div class="formula-label">\(\cos\phi\) = factor de potencia. Para circuito puramente resistivo, \(\phi=0\) y \(\cos\phi=1\) (máxima potencia entregada).</div>
+  </div>
+</section>
+
+<!-- ── RESONANCIA ── -->
+<section id="resonancia">
+  <div class="section-eyebrow">Unidad 4 · Parte VII</div>
+  <h2 class="section-title"><span>Resonancia</span></h2>
+  <p class="section-desc">A la frecuencia de resonancia, las reactancias inductiva y capacitiva se cancelan, la impedancia es mínima e igual a R, y la corriente es máxima.</p>
+
+  <div class="formula-box gold">
+    \[X_L = X_C \;\Rightarrow\; \omega_0 = \frac{1}{\sqrt{LC}}, \quad f_0 = \frac{1}{2\pi\sqrt{LC}}\]
+    <div class="formula-label">En resonancia: Z = R (mínimo), I = V/R (máximo), φ = 0</div>
+  </div>
+
+  <!-- Interactive resonance simulator -->
+  <div class="sim-box">
+    <div class="sim-title">📻 Simulador de Resonancia RLC en Serie</div>
+    <div class="sim-controls">
+      <div>
+        <label for="res-R">R (Ω)</label>
+        <input type="range" id="res-R" min="0.5" max="30" value="5" step="0.5">
+        <span class="sim-value" id="res-R-val">5.0 Ω</span>
+      </div>
+      <div>
+        <label for="res-L">L (mH)</label>
+        <input type="range" id="res-L" min="1" max="100" value="20" step="1">
+        <span class="sim-value" id="res-L-val">20 mH</span>
+      </div>
+      <div>
+        <label for="res-C">C (μF)</label>
+        <input type="range" id="res-C" min="1" max="100" value="32" step="1">
+        <span class="sim-value" id="res-C-val">32 μF</span>
+      </div>
+    </div>
+    <canvas id="res-canvas" width="720" height="200"></canvas>
+    <div class="output-row">
+      <div class="output-item"><span class="lbl">f₀ = 1/(2π√LC)</span><span class="val" id="res-f0">198 Hz</span></div>
+      <div class="output-item"><span class="lbl">Z en resonancia</span><span class="val" id="res-Zmin">5.0 Ω</span></div>
+      <div class="output-item"><span class="lbl">I_rms máx (V=1V)</span><span class="val" id="res-Imax">200 mA</span></div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-icon">📻</span>
+    <div class="callout-body"><strong>Aplicación:</strong> Los circuitos de sintonía de radio son RLC en serie. Variar L o C ajusta \(\omega_0\) para seleccionar la frecuencia de la emisora deseada. Cuanto menor es R, más selectivo es el circuito (curva de resonancia más estrecha).</div>
+  </div>
+</section>
+
+<!-- ── TRANSFORMADORES ── -->
+<section id="transformadores">
+  <div class="section-eyebrow">Unidad 4 · Parte VIII</div>
+  <h2 class="section-title"><span>Transformadores</span></h2>
+  <p class="section-desc">Un transformador cambia voltajes y corrientes AC mediante inducción mutua entre dos bobinas sobre un núcleo de hierro.</p>
+
+  <div class="formula-box">
+    \[\frac{V_2}{V_1} = \frac{N_2}{N_1} \qquad \frac{I_1}{I_2} = \frac{N_2}{N_1}\]
+    <div class="formula-label">Conservación de potencia (transformador ideal): \(V_1 I_1 = V_2 I_2\)</div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Transformador elevador</h4>
+      <p style="font-size:14px">\(N_2 > N_1\) → \(V_2 > V_1\), \(I_2 < I_1\)</p>
+      <p style="font-size:13px;color:var(--muted)">Usado en transmisión de energía a larga distancia para reducir pérdidas \(I^2R\) en las líneas.</p>
+    </div>
+    <div class="card">
+      <h4>Transformador reductor</h4>
+      <p style="font-size:14px">\(N_2 < N_1\) → \(V_2 < V_1\), \(I_2 > I_1\)</p>
+      <p style="font-size:13px;color:var(--muted)">Usado en el hogar: de 220 V a 5 V para cargar dispositivos.</p>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-icon">⚡</span>
+    <div class="callout-body"><strong>Transformación de impedancia:</strong> Un transformador "ve" en el primario una resistencia efectiva \(R_\text{eff} = R/(N_2/N_1)^2\). Esto se usa en audiofrecuencia para lograr <em>adaptación de impedancias</em> (maximum power transfer).</div>
+  </div>
+
+  <!-- SVG transformer diagram -->
+  <div class="diagram-wrapper">
+    <div class="diagram-title">Esquema de un transformador ideal</div>
+    <svg viewBox="0 0 500 200" width="100%" height="auto">
+      <!-- Iron core -->
+      <rect x="200" y="40" width="100" height="120" rx="4" fill="rgba(245,200,66,0.08)" stroke="rgba(245,200,66,0.3)" stroke-width="1.5"/>
+      <text x="250" y="108" fill="rgba(245,200,66,0.6)" font-size="11" text-anchor="middle">Núcleo</text>
+      <text x="250" y="122" fill="rgba(245,200,66,0.6)" font-size="11" text-anchor="middle">de Hierro</text>
+      <!-- Primary coil -->
+      <path d="M120,70 Q140,70 140,90 Q140,110 120,110 Q140,110 140,130 Q140,150 120,150" fill="none" stroke="#4a9eff" stroke-width="2"/>
+      <path d="M160,70 Q180,70 180,90 Q180,110 160,110 Q180,110 180,130 Q180,150 160,150" fill="none" stroke="#4a9eff" stroke-width="2"/>
+      <!-- primary wires -->
+      <line x1="50" y1="70" x2="120" y2="70" stroke="#4a9eff" stroke-width="1.5"/>
+      <line x1="50" y1="150" x2="120" y2="150" stroke="#4a9eff" stroke-width="1.5"/>
+      <!-- AC source -->
+      <circle cx="50" cy="110" r="22" fill="none" stroke="#4a9eff" stroke-width="1.5"/>
+      <text x="50" y="106" fill="#4a9eff" font-size="16" text-anchor="middle">~</text>
+      <text x="50" y="140" fill="#4a9eff" font-size="10" text-anchor="middle">V₁, I₁</text>
+      <line x1="50" y1="70" x2="50" y2="88" stroke="#4a9eff" stroke-width="1.5"/>
+      <line x1="50" y1="132" x2="50" y2="150" stroke="#4a9eff" stroke-width="1.5"/>
+      <!-- Primary label -->
+      <text x="140" y="35" fill="#4a9eff" font-size="11" text-anchor="middle">Primario N₁</text>
+      <!-- Secondary coil -->
+      <path d="M320,70 Q340,70 340,90 Q340,110 320,110 Q340,110 340,130 Q340,150 320,150" fill="none" stroke="#34d399" stroke-width="2"/>
+      <path d="M360,70 Q380,70 380,90 Q380,110 360,110 Q380,110 380,130 Q380,150 360,150" fill="none" stroke="#34d399" stroke-width="2"/>
+      <!-- secondary wires -->
+      <line x1="380" y1="70" x2="450" y2="70" stroke="#34d399" stroke-width="1.5"/>
+      <line x1="380" y1="150" x2="450" y2="150" stroke="#34d399" stroke-width="1.5"/>
+      <!-- Load -->
+      <rect x="450" y="90" width="30" height="40" rx="4" fill="none" stroke="#34d399" stroke-width="1.5"/>
+      <text x="465" y="115" fill="#34d399" font-size="12" text-anchor="middle">R</text>
+      <text x="430" y="180" fill="#34d399" font-size="10" text-anchor="middle">V₂, I₂</text>
+      <!-- Secondary label -->
+      <text x="350" y="35" fill="#34d399" font-size="11" text-anchor="middle">Secundario N₂</text>
+      <!-- Flux arrows in core -->
+      <line x1="230" y1="90" x2="230" y2="150" stroke="rgba(245,200,66,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <polygon points="230,150 226,140 234,140" fill="rgba(245,200,66,0.5)"/>
+      <text x="244" y="125" fill="rgba(245,200,66,0.5)" font-size="10">Φ_B</text>
+    </svg>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── ECUACIONES DE MAXWELL ── -->
+<section id="ecuaciones-maxwell">
+  <div class="section-eyebrow">Síntesis</div>
+  <h2 class="section-title">Las 4 Ecuaciones de <span>Maxwell</span></h2>
+  <p class="section-desc">Estas cuatro ecuaciones unificadas describen completamente el electromagnetismo clásico.</p>
+
+  <div class="card" style="border-color:rgba(167,139,250,0.3)">
+    <table>
+      <tr>
+        <th>#</th><th>Nombre</th><th>Forma integral</th><th>Lo que expresa</th>
+      </tr>
+      <tr>
+        <td style="color:var(--accent-violet);font-family:monospace">1</td>
+        <td>Gauss (E)</td>
+        <td style="font-size:13px">\(\oint\vec{E}\cdot d\vec{A} = Q_\text{enc}/\varepsilon_0\)</td>
+        <td style="font-size:13px;color:var(--muted)">Las cargas eléctricas crean campo E</td>
+      </tr>
+      <tr>
+        <td style="color:var(--accent-violet);font-family:monospace">2</td>
+        <td>Gauss (B)</td>
+        <td style="font-size:13px">\(\oint\vec{B}\cdot d\vec{A} = 0\)</td>
+        <td style="font-size:13px;color:var(--muted)">No existen monopolos magnéticos</td>
+      </tr>
+      <tr>
+        <td style="color:var(--accent-violet);font-family:monospace">3</td>
+        <td>Faraday</td>
+        <td style="font-size:13px">\(\oint\vec{E}\cdot d\vec{l} = -d\Phi_B/dt\)</td>
+        <td style="font-size:13px;color:var(--muted)">B variable induce campo E</td>
+      </tr>
+      <tr>
+        <td style="color:var(--accent-violet);font-family:monospace">4</td>
+        <td>Ampère-Maxwell</td>
+        <td style="font-size:13px">\(\oint\vec{B}\cdot d\vec{l} = \mu_0(I + \varepsilon_0 d\Phi_E/dt)\)</td>
+        <td style="font-size:13px;color:var(--muted)">Corrientes y E variable inducen campo B</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="callout key">
+    <span class="callout-icon">✨</span>
+    <div class="callout-body"><strong>La simetría de Maxwell:</strong> Las ecuaciones 3 y 4 revelan la hermosa simetría entre E y B: un campo variable en el tiempo crea el otro. Esta retroalimentación permite la propagación de ondas electromagnéticas a velocidad \(c = 1/\sqrt{\varepsilon_0\mu_0} \approx 3\times10^8\,\text{m/s}\).</div>
+  </div>
+</section>
+
+<!-- ── FORMULARIO RESUMEN ── -->
+<section id="resumen">
+  <div class="section-eyebrow">Referencia Rápida</div>
+  <h2 class="section-title">Formulario <span>Completo</span></h2>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Magnetostática</div>
+      <ul style="font-size:13px;list-style:none;padding:0">
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(\vec{F}_B = q\vec{v}\times\vec{B}\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(R = mv/(|q|B)\), \(\omega_c = |q|B/m\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(d\vec{B} = \frac{\mu_0}{4\pi}\frac{Id\vec{l}\times\hat{r}}{r^2}\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(B_\text{alambre} = \mu_0I/(2\pi r)\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(B_\text{solenoide} = \mu_0 nI\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(\oint\vec{B}\cdot d\vec{l} = \mu_0 I_\text{enc}\)</li>
+        <li style="padding:4px 0;">\(\oint\vec{B}\cdot d\vec{A} = 0\)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Inducción</div>
+      <ul style="font-size:13px;list-style:none;padding:0">
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(\mathcal{E} = -N\,d\Phi_B/dt\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(L = N\Phi_B/I\), \(\mathcal{E} = -L\,di/dt\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(U_L = \frac{1}{2}LI^2\), \(u_B = B^2/(2\mu_0)\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(\tau_{RL} = L/R\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(\omega_0^{LC} = 1/\sqrt{LC}\)</li>
+        <li style="padding:4px 0;">\(M = N_2\Phi_{B2}/I_1\)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Corriente Alterna</div>
+      <ul style="font-size:13px;list-style:none;padding:0">
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(V_\text{rms} = V/\sqrt{2}\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(X_L = \omega L\), \(X_C = 1/(\omega C)\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(|Z| = \sqrt{R^2+(X_L-X_C)^2}\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(\phi = \arctan[(X_L-X_C)/R]\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(\omega_0 = 1/\sqrt{LC}\) (resonancia)</li>
+        <li style="padding:4px 0;">\(\langle P\rangle = V_\text{rms}I_\text{rms}\cos\phi\)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Transformadores</div>
+      <ul style="font-size:13px;list-style:none;padding:0">
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(V_2/V_1 = N_2/N_1\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(I_1/I_2 = N_2/N_1\)</li>
+        <li style="padding:4px 0;border-bottom:1px solid var(--border)">\(V_1I_1 = V_2I_2\) (ideal)</li>
+        <li style="padding:4px 0;">\(R_\text{eff} = R/(N_2/N_1)^2\)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUIZ ── -->
+<section id="quiz-section">
+  <div class="section-eyebrow">Autodiagnóstico</div>
+  <h2 class="section-title">Quiz de <span>Comprensión</span></h2>
+  <p class="section-desc">Pon a prueba tu entendimiento conceptual de las unidades 3 y 4.</p>
+
+  <!-- Q1 -->
+  <div class="quiz-box">
+    <div class="quiz-question"><strong>1.</strong> Un electrón (carga negativa) se mueve hacia la derecha en un campo magnético que apunta hacia arriba (\(\hat{j}\)). ¿En qué dirección es la fuerza magnética?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q1')">Hacia arriba</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q1')">Hacia la izquierda (−x̂)</button>
+      <button class="quiz-opt" onclick="checkQ(this,'correct','Q1')">Hacia afuera de la página (+ẑ)</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q1')">Hacia la página (−ẑ)</button>
+    </div>
+    <div class="quiz-feedback" id="Q1-correct">✅ Correcto. Para el electrón: \(\vec{F} = q\vec{v}\times\vec{B} = (-e)(\hat{x})\times(\hat{j}) = (-e)(\hat{k})\). Al ser la carga negativa, el signo se invierte → \(+\hat{k}\) = hacia afuera de la página.</div>
+    <div class="quiz-feedback" id="Q1-wrong">❌ Recuerda: aplica la RMD para la carga positiva → obtienes \(-\hat{k}\). Como el electrón tiene carga negativa, la fuerza se invierte → \(+\hat{k}\) (hacia afuera de la página).</div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-box">
+    <div class="quiz-question"><strong>2.</strong> ¿Cuál de las siguientes afirmaciones sobre inductores en CA es correcta?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q2')">La reactancia inductiva \(X_L\) disminuye al aumentar la frecuencia</button>
+      <button class="quiz-opt" onclick="checkQ(this,'correct','Q2')">El voltaje en el inductor <em>adelanta</em> 90° a la corriente</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q2')">El inductor disipa potencia media positiva en CA</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q2')">En DC, el inductor actúa como un circuito abierto</button>
+    </div>
+    <div class="quiz-feedback" id="Q2-correct">✅ Correcto. "ELI": en un inductor (L), el voltaje (E) va antes que la corriente (I). La reactancia inductiva \(X_L = \omega L\) <em>aumenta</em> con la frecuencia. La potencia media del inductor es cero. En DC estacionaria, el inductor actúa como cortocircuito.</div>
+    <div class="quiz-feedback" id="Q2-wrong">❌ Piensa en "ELI": el voltaje adelanta 90°. \(X_L = \omega L\) crece con ω. La potencia media del inductor ideal es cero. En DC estacionaria actúa como cortocircuito.</div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-box">
+    <div class="quiz-question"><strong>3.</strong> En un circuito LC sin resistencia, ¿qué ocurre con la energía total del sistema?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q3')">Se disipa gradualmente como calor</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q3')">Se almacena permanentemente en el capacitor</button>
+      <button class="quiz-opt" onclick="checkQ(this,'correct','Q3')">Se conserva, oscilando entre \(U_E\) y \(U_B\)</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q3')">Se reduce a la mitad cada oscilación</button>
+    </div>
+    <div class="quiz-feedback" id="Q3-correct">✅ Correcto. \(E = \frac{1}{2}Li^2 + \frac{q^2}{2C} = \text{constante}\). La energía oscila entre campo magnético (\(\frac{1}{2}LI^2\)) en el inductor y campo eléctrico (\(Q^2/2C\)) en el capacitor, análogo al intercambio entre energía cinética y potencial en masa-resorte.</div>
+    <div class="quiz-feedback" id="Q3-wrong">❌ Sin resistencia no hay disipación. La energía total \(\frac{1}{2}Li^2 + \frac{q^2}{2C}\) se conserva, oscilando entre los dos elementos. Es análogo al péndulo ideal.</div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-box">
+    <div class="quiz-question"><strong>4.</strong> Un transformador ideal tiene \(N_1=100\) vueltas y \(N_2=500\) vueltas. Si se aplica \(V_1=220\,\text{V}\), ¿cuál es \(V_2\)?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q4')">44 V</button>
+      <button class="quiz-opt" onclick="checkQ(this,'correct','Q4')">1100 V</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q4')">220 V</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q4')">4400 V</button>
+    </div>
+    <div class="quiz-feedback" id="Q4-correct">✅ Correcto. \(V_2 = V_1(N_2/N_1) = 220\times(500/100) = 220\times5 = 1100\,\text{V}\). Es un transformador elevador (\(N_2>N_1\)), por lo que el voltaje sube y la corriente baja.</div>
+    <div class="quiz-feedback" id="Q4-wrong">❌ Usa \(V_2/V_1 = N_2/N_1 = 500/100 = 5\), por lo que \(V_2 = 220\times5 = 1100\,\text{V}\).</div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-box">
+    <div class="quiz-question"><strong>5.</strong> ¿Cuál es la frecuencia de resonancia de un circuito RLC con \(L=1\,\text{mH}\) y \(C=25\,\mu\text{F}\)?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q5')">≈ 318 Hz</button>
+      <button class="quiz-opt" onclick="checkQ(this,'correct','Q5')">≈ 1007 Hz</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q5')">≈ 2000 Hz</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q5')">≈ 500 Hz</button>
+    </div>
+    <div class="quiz-feedback" id="Q5-correct">✅ Correcto. \(f_0 = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{10^{-3}\times25\times10^{-6}}} = \frac{1}{2\pi\times5\times10^{-3}} \approx \frac{1}{0.03141} \approx 1007\,\text{Hz}\).</div>
+    <div class="quiz-feedback" id="Q5-wrong">❌ \(f_0 = \frac{1}{2\pi\sqrt{LC}}\). Con \(L=10^{-3}\,\text{H}\) y \(C=25\times10^{-6}\,\text{F}\): \(\sqrt{LC} = \sqrt{25\times10^{-9}} = 5\times10^{-5}\,\text{s}\). \(f_0 = 1/(2\pi\times5\times10^{-5}/1000) \approx 1007\,\text{Hz}\).</div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+/* ──────────────────────────────────────────────
+   NAV: active link on scroll
+   ────────────────────────────────────────────── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+}, {passive:true});
+
+/* ──────────────────────────────────────────────
+   QUIZ
+   ────────────────────────────────────────────── */
+function checkQ(btn, result, qid) {
+  const box = btn.closest('.quiz-box');
+  box.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+  btn.classList.add(result);
+  const fb = document.getElementById(qid + '-' + result);
+  fb.classList.add('show', result);
+}
+
+/* ──────────────────────────────────────────────
+   RL SIMULATOR
+   ────────────────────────────────────────────── */
+const rlCanvas = document.getElementById('rl-canvas');
+const rlCtx = rlCanvas.getContext('2d');
+const emfSlider = document.getElementById('emf');
+const rSlider = document.getElementById('R-val');
+const lSlider = document.getElementById('L-val');
+
+function drawRL() {
+  const W = rlCanvas.width, H = rlCanvas.height;
+  const emf = parseFloat(emfSlider.value);
+  const R = parseFloat(rSlider.value);
+  const L = parseFloat(lSlider.value);
+  const tau = L/R;
+  const Ifinal = emf/R;
+  const UL = 0.5*L*Ifinal*Ifinal;
+
+  document.getElementById('emf-val').textContent = emf.toFixed(1)+' V';
+  document.getElementById('R-display').textContent = R.toFixed(1)+' Ω';
+  document.getElementById('L-display').textContent = L.toFixed(1)+' H';
+  document.getElementById('tau-out').textContent = tau.toFixed(2)+' s';
+  document.getElementById('ifinal-out').textContent = Ifinal.toFixed(2)+' A';
+  document.getElementById('ul-out').textContent = UL.toFixed(2)+' J';
+
+  rlCtx.clearRect(0,0,W,H);
+  const tmax = 5*tau;
+  const pad = 40;
+
+  // grid
+  rlCtx.strokeStyle = 'rgba(255,255,255,0.05)';
+  rlCtx.lineWidth = 1;
+  for(let g=0; g<=4; g++) {
+    const x = pad + (W-2*pad)*g/4;
+    rlCtx.beginPath(); rlCtx.moveTo(x,pad); rlCtx.lineTo(x,H-pad); rlCtx.stroke();
+    const y = pad + (H-2*pad)*g/4;
+    rlCtx.beginPath(); rlCtx.moveTo(pad,y); rlCtx.lineTo(W-pad,y); rlCtx.stroke();
+  }
+
+  // axes
+  rlCtx.strokeStyle = '#334155'; rlCtx.lineWidth = 1.5;
+  rlCtx.beginPath(); rlCtx.moveTo(pad,H-pad); rlCtx.lineTo(W-pad,H-pad); rlCtx.stroke();
+  rlCtx.beginPath(); rlCtx.moveTo(pad,pad); rlCtx.lineTo(pad,H-pad); rlCtx.stroke();
+
+  // axis labels
+  rlCtx.fillStyle = '#64748b'; rlCtx.font = '11px monospace';
+  rlCtx.fillText('t', W-pad+5, H-pad+4);
+  rlCtx.fillText('i(t)', pad+4, pad-6);
+  rlCtx.fillText('0', pad-12, H-pad+4);
+
+  // I_final dashed line
+  rlCtx.strokeStyle = 'rgba(245,200,66,0.3)'; rlCtx.lineWidth=1; rlCtx.setLineDash([4,4]);
+  rlCtx.beginPath(); rlCtx.moveTo(pad,pad+5); rlCtx.lineTo(W-pad,pad+5); rlCtx.stroke();
+  rlCtx.setLineDash([]);
+  rlCtx.fillStyle = 'rgba(245,200,66,0.6)';
+  rlCtx.fillText('I_f='+Ifinal.toFixed(2)+'A', W-pad-80, pad+3);
+
+  // tau marker
+  const tauX = pad + (W-2*pad)*(tau/tmax);
+  rlCtx.strokeStyle = 'rgba(167,139,250,0.4)'; rlCtx.lineWidth=1; rlCtx.setLineDash([3,3]);
+  rlCtx.beginPath(); rlCtx.moveTo(tauX,pad); rlCtx.lineTo(tauX,H-pad); rlCtx.stroke();
+  rlCtx.setLineDash([]);
+  rlCtx.fillStyle = 'rgba(167,139,250,0.7)';
+  rlCtx.fillText('τ', tauX-4, H-pad+14);
+
+  // current curve
+  rlCtx.strokeStyle = '#4a9eff'; rlCtx.lineWidth=2.5;
+  rlCtx.beginPath();
+  for(let px=0; px<=W-2*pad; px++) {
+    const t = tmax * px/(W-2*pad);
+    const i_val = Ifinal*(1-Math.exp(-t/tau));
+    const x = pad+px;
+    const y = (H-pad) - (H-2*pad-10)*(i_val/Ifinal);
+    if(px===0) rlCtx.moveTo(x,y); else rlCtx.lineTo(x,y);
+  }
+  rlCtx.stroke();
+
+  // voltage curve (di/dt proportional)
+  rlCtx.strokeStyle = '#34d399'; rlCtx.lineWidth=1.5; rlCtx.setLineDash([3,3]);
+  rlCtx.beginPath();
+  for(let px=0; px<=W-2*pad; px++) {
+    const t = tmax * px/(W-2*pad);
+    const diDt = (Ifinal/tau)*Math.exp(-t/tau);
+    const x = pad+px;
+    const y = (H-pad) - (H-2*pad-10)*(diDt/(Ifinal/tau));
+    if(px===0) rlCtx.moveTo(x,y); else rlCtx.lineTo(x,y);
+  }
+  rlCtx.stroke();
+  rlCtx.setLineDash([]);
+
+  // legend
+  rlCtx.fillStyle='#4a9eff'; rlCtx.fillRect(pad+8,pad+14,20,3);
+  rlCtx.fillStyle='#4a9eff'; rlCtx.font='11px monospace';
+  rlCtx.fillText('i(t)', pad+32, pad+18);
+  rlCtx.fillStyle='#34d399'; rlCtx.fillRect(pad+70,pad+14,20,2);
+  rlCtx.fillStyle='#34d399';
+  rlCtx.fillText('di/dt', pad+94, pad+18);
+}
+emfSlider.addEventListener('input', drawRL);
+rSlider.addEventListener('input', drawRL);
+lSlider.addEventListener('input', drawRL);
+drawRL();
+
+/* ──────────────────────────────────────────────
+   LC OSCILLATOR
+   ────────────────────────────────────────────── */
+const lcCanvas = document.getElementById('lc-canvas');
+const lcCtx = lcCanvas.getContext('2d');
+let lcTime = 0;
+const omega0 = 2; // rad/s (normalized)
+
+function animateLC() {
+  const W = lcCanvas.width, H = lcCanvas.height;
+  const pad = 30;
+  lcCtx.clearRect(0,0,W,H);
+
+  // grid
+  lcCtx.strokeStyle='rgba(255,255,255,0.04)'; lcCtx.lineWidth=1;
+  for(let g=0;g<=6;g++) {
+    const x=pad+(W-2*pad)*g/6;
+    lcCtx.beginPath();lcCtx.moveTo(x,pad);lcCtx.lineTo(x,H-pad);lcCtx.stroke();
+  }
+  lcCtx.beginPath();lcCtx.moveTo(pad,H/2);lcCtx.lineTo(W-pad,H/2);
+  lcCtx.strokeStyle='rgba(255,255,255,0.08)';lcCtx.stroke();
+
+  const cycles = 3;
+  const T = 2*Math.PI/omega0;
+
+  function drawWave(fn, color, lineW=1.5, dash=false) {
+    lcCtx.strokeStyle=color; lcCtx.lineWidth=lineW;
+    if(dash) lcCtx.setLineDash([3,3]); else lcCtx.setLineDash([]);
+    lcCtx.beginPath();
+    for(let px=0;px<=W-2*pad;px++) {
+      const t=(T*cycles)*px/(W-2*pad);
+      const v=fn(t);
+      const x=pad+px;
+      const y=H/2 - (H/2-pad-5)*v;
+      if(px===0)lcCtx.moveTo(x,y);else lcCtx.lineTo(x,y);
+    }
+    lcCtx.stroke();
+    lcCtx.setLineDash([]);
+  }
+
+  // q(t) = cos(ω₀t)
+  drawWave(t=>Math.cos(omega0*t), '#4a9eff', 2);
+  // i(t) = -sin(ω₀t)
+  drawWave(t=>-Math.sin(omega0*t), '#f5c842', 2);
+  // U_E = cos²
+  drawWave(t=>Math.pow(Math.cos(omega0*t),2), '#34d399', 1.5, true);
+  // U_B = sin²
+  drawWave(t=>Math.pow(Math.sin(omega0*t),2), '#a78bfa', 1.5, true);
+
+  // moving cursor
+  const cursorT = lcTime % (T*cycles);
+  const cursorX = pad + (W-2*pad)*cursorT/(T*cycles);
+  lcCtx.strokeStyle='rgba(255,255,255,0.3)'; lcCtx.lineWidth=1; lcCtx.setLineDash([2,2]);
+  lcCtx.beginPath();lcCtx.moveTo(cursorX,pad);lcCtx.lineTo(cursorX,H-pad);lcCtx.stroke();
+  lcCtx.setLineDash([]);
+
+  lcTime += 0.02;
+  requestAnimationFrame(animateLC);
+}
+animateLC();
+
+/* ──────────────────────────────────────────────
+   LRC DAMPING
+   ────────────────────────────────────────────── */
+const lrcCanvas = document.getElementById('lrc-canvas');
+const lrcCtx = lrcCanvas.getContext('2d');
+
+function drawLRC() {
+  const W = lrcCanvas.width, H = lrcCanvas.height;
+  const pad = 30;
+  lrcCtx.clearRect(0,0,W,H);
+
+  lrcCtx.strokeStyle='rgba(255,255,255,0.04)'; lrcCtx.lineWidth=1;
+  lrcCtx.beginPath();lrcCtx.moveTo(pad,H/2);lrcCtx.lineTo(W-pad,H/2);
+  lrcCtx.strokeStyle='rgba(255,255,255,0.08)';lrcCtx.stroke();
+
+  const L=1, C=0.25; // normalized
+  const omega0=1/Math.sqrt(L*C);
+  const tmax=30;
+
+  function drawDamped(R, color) {
+    const alpha=R/(2*L);
+    const omegaD=Math.sqrt(Math.max(0,omega0*omega0-alpha*alpha));
+    lrcCtx.strokeStyle=color; lrcCtx.lineWidth=2;
+    lrcCtx.beginPath();
+    for(let px=0;px<=W-2*pad;px++){
+      const t=tmax*px/(W-2*pad);
+      let v;
+      if(R*R<4*L/C) { // underdamped
+        v=Math.exp(-alpha*t)*Math.cos(omegaD*t);
+      } else if(R*R===4*L/C) { // critical
+        v=(1+alpha*t)*Math.exp(-alpha*t);
+      } else { // overdamped
+        const r1=-alpha+Math.sqrt(alpha*alpha-omega0*omega0);
+        const r2=-alpha-Math.sqrt(alpha*alpha-omega0*omega0);
+        v=0.5*(Math.exp(r1*t)+Math.exp(r2*t));
+      }
+      const x=pad+px;
+      const y=H/2-(H/2-pad-5)*v;
+      if(px===0)lrcCtx.moveTo(x,y);else lrcCtx.lineTo(x,y);
+    }
+    lrcCtx.stroke();
+  }
+
+  drawDamped(0.3,'#4a9eff');   // underdamped
+  drawDamped(2.0,'#f5c842');   // critical (R²=4L/C → R=2√(L/C)=2*√4=4, but use R=2 for visual)
+  drawDamped(6.0,'#f87171');   // overdamped
+}
+drawLRC();
+
+/* ──────────────────────────────────────────────
+   RESONANCE SIMULATOR
+   ────────────────────────────────────────────── */
+const resCanvas = document.getElementById('res-canvas');
+const resCtx = resCanvas.getContext('2d');
+const resR = document.getElementById('res-R');
+const resL = document.getElementById('res-L');
+const resC = document.getElementById('res-C');
+
+function drawResonance() {
+  const W=resCanvas.width, H=resCanvas.height, pad=40;
+  const R=parseFloat(resR.value);
+  const L=parseFloat(resL.value)*1e-3;
+  const C=parseFloat(resC.value)*1e-6;
+
+  document.getElementById('res-R-val').textContent=R.toFixed(1)+' Ω';
+  document.getElementById('res-L-val').textContent=parseFloat(resL.value).toFixed(0)+' mH';
+  document.getElementById('res-C-val').textContent=parseFloat(resC.value).toFixed(0)+' μF';
+
+  const f0=1/(2*Math.PI*Math.sqrt(L*C));
+  const Imax=1/R;
+  document.getElementById('res-f0').textContent=f0.toFixed(0)+' Hz';
+  document.getElementById('res-Zmin').textContent=R.toFixed(1)+' Ω';
+  document.getElementById('res-Imax').textContent=(Imax*1000).toFixed(0)+' mA';
+
+  resCtx.clearRect(0,0,W,H);
+
+  const fmin=f0*0.1, fmax=f0*5;
+
+  // grid
+  resCtx.strokeStyle='rgba(255,255,255,0.04)'; resCtx.lineWidth=1;
+  for(let g=0;g<=4;g++){
+    const x=pad+(W-2*pad)*g/4;
+    resCtx.beginPath();resCtx.moveTo(x,pad);resCtx.lineTo(x,H-pad);resCtx.stroke();
+    const y=pad+(H-2*pad)*g/4;
+    resCtx.beginPath();resCtx.moveTo(pad,y);resCtx.lineTo(W-pad,y);resCtx.stroke();
+  }
+
+  // axes
+  resCtx.strokeStyle='#334155'; resCtx.lineWidth=1.5;
+  resCtx.beginPath();resCtx.moveTo(pad,H-pad);resCtx.lineTo(W-pad,H-pad);resCtx.stroke();
+  resCtx.beginPath();resCtx.moveTo(pad,pad);resCtx.lineTo(pad,H-pad);resCtx.stroke();
+
+  resCtx.fillStyle='#64748b'; resCtx.font='11px monospace';
+  resCtx.fillText('f (Hz)', W-pad-40, H-pad+16);
+  resCtx.fillText('|I|(A)', pad+4, pad-6);
+
+  // resonance line
+  const res_x=pad+(W-2*pad)*(f0-fmin)/(fmax-fmin);
+  resCtx.strokeStyle='rgba(245,200,66,0.25)'; resCtx.lineWidth=1; resCtx.setLineDash([4,4]);
+  resCtx.beginPath();resCtx.moveTo(res_x,pad);resCtx.lineTo(res_x,H-pad);resCtx.stroke();
+  resCtx.setLineDash([]);
+  resCtx.fillStyle='rgba(245,200,66,0.7)'; resCtx.font='11px monospace';
+  resCtx.fillText('f₀='+f0.toFixed(0)+'Hz', res_x+4, pad+14);
+
+  // |I(f)| curve
+  resCtx.strokeStyle='#4a9eff'; resCtx.lineWidth=2.5;
+  resCtx.beginPath();
+  for(let px=0;px<=W-2*pad;px++){
+    const f=fmin+(fmax-fmin)*px/(W-2*pad);
+    const omega=2*Math.PI*f;
+    const XL=omega*L, XC=1/(omega*C);
+    const Z=Math.sqrt(R*R+(XL-XC)*(XL-XC));
+    const I=1/Z; // V_rms=1V
+    const x=pad+px;
+    const y=(H-pad)-(H-2*pad-5)*(I/Imax);
+    if(px===0)resCtx.moveTo(x,y);else resCtx.lineTo(x,y);
+  }
+  resCtx.stroke();
+}
+resR.addEventListener('input', drawResonance);
+resL.addEventListener('input', drawResonance);
+resC.addEventListener('input', drawResonance);
+drawResonance();
+</script>
+</body>
+</html>

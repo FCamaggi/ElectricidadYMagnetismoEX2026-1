@@ -289,6 +289,17 @@
   .quiz-feedback.show { display: block; }
   .quiz-feedback.correct { background: rgba(52,211,153,0.1); color: var(--accent-green); border: 1px solid rgba(52,211,153,0.3); }
   .quiz-feedback.wrong { background: rgba(248,113,113,0.1); color: var(--accent-rose); border: 1px solid rgba(248,113,113,0.3); }
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  .meta-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:20px 0; }
+  .checklist { list-style:none; padding-left:0; }
+  .checklist li { padding-left:24px; position:relative; }
+  .checklist li::before { content:'✓'; position:absolute; left:0; color:var(--accent-green); }
+  .mini-check { border-left:3px solid var(--accent-cyan); padding:14px 18px; background:rgba(0,212,200,0.06); border-radius:8px; margin:16px 0; }
+  .sim-note { font-size:13px; color:var(--muted); margin-top:10px; }
+  .sim-pause { background:rgba(255,255,255,0.06); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:6px 10px; font-family:monospace; cursor:pointer; }
+  .sim-pause:hover, .sim-pause:focus { border-color:var(--accent-cyan); outline:2px solid rgba(0,212,200,0.25); }
+  @media (max-width:700px) { .meta-grid { grid-template-columns:1fr; } }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior:auto !important; } }
 
   /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 6px; }
@@ -334,7 +345,9 @@
     <div class="nav-section-label">Recursos</div>
     <a href="#ecuaciones-maxwell">Ec. de Maxwell</a>
     <a href="#resumen">Formulario</a>
+    <a href="#evaluacion-mixta">Evaluación mixta</a>
     <a href="#quiz-section">Quiz</a>
+    <a href="#licencia">Licencia</a>
   </div>
 </nav>
 
@@ -353,6 +366,16 @@
     <span class="pill pill-violet">Corriente Alterna</span>
   </div>
 </div>
+
+<section id="orientacion" aria-labelledby="orientacion-title">
+  <div class="section-eyebrow">Cómo usar esta guía</div>
+  <h2 class="section-title" id="orientacion-title">Objetivos, ruta y criterios de estudio</h2>
+  <p class="section-desc">Recurso de repaso autónomo para estudiantes de FIS1533 que ya han visto vectores, producto cruz, flujo, derivadas básicas, ecuaciones diferenciales simples y números complejos elementales. Tiempo sugerido: 10–12 horas de estudio activo.</p>
+  <div class="meta-grid">
+    <div class="card"><div class="card-title">Al terminar deberías poder</div><ul class="checklist"><li>Determinar dirección y magnitud de fuerzas magnéticas.</li><li>Elegir Biot-Savart o Ampère según la simetría.</li><li>Aplicar Faraday-Lenz explicando el signo físico.</li><li>Modelar transientes RL, LC y LRC.</li><li>Resolver impedancia, potencia y resonancia en CA.</li></ul></div>
+    <div class="card"><div class="card-title">Estrategia recomendada</div><ul class="checklist"><li>Lee cada bloque con lápiz y verifica unidades.</li><li>Antes de mirar cada simulación, predice la forma de la curva.</li><li>Resuelve los mini-chequeos y compáralos con las pistas.</li><li>Usa el formulario solo después de decidir qué ley aplica.</li></ul></div>
+  </div>
+</section>
 
 <!-- ═══════════════════════════════════════════════
      UNIDAD 3 — MAGNETOSTÁTICA
@@ -379,7 +402,7 @@
 
   <div class="callout info">
     <span class="callout-icon">🧭</span>
-    <div class="callout-body"><strong>Monopolos magnéticos no existen.</strong> Al romper un imán siempre obtienes dos imanes con polo N y S, nunca polos aislados. Esto se codifica en la ley de Gauss magnética: \(\oint_S \vec{B}\cdot d\vec{A}=0\).</div>
+    <div class="callout-body"><strong>No se han observado monopolos magnéticos aislados.</strong> Al romper un imán ordinario siempre obtienes dos imanes con polo N y S, nunca polos aislados. Esto se codifica en la ley de Gauss magnética: \(\oint_S \vec{B}\cdot d\vec{A}=0\).</div>
   </div>
 
   <!-- SVG: Dipolo magnético y campo -->
@@ -621,11 +644,11 @@
 <section id="ampere">
   <div class="section-eyebrow">Unidad 3 · Parte V</div>
   <h2 class="section-title">Ley de <span>Ampère</span></h2>
-  <p class="section-desc">Análoga a la Ley de Gauss para \(\vec{E}\), pero para \(\vec{B}\): relaciona la integral de línea del campo magnético con la corriente encerrada.</p>
+  <p class="section-desc">En magnetostática, relaciona la circulación del campo magnético con la corriente de conducción encerrada. En campos variables se debe usar la forma completa de Ampère-Maxwell.</p>
 
   <div class="formula-box gold">
     \[\oint \vec{B}\cdot d\vec{l} = \mu_0 I_\text{enc}\]
-    <div class="formula-label">4ª Ecuación de Maxwell (incompleta sin la corriente de desplazamiento)</div>
+    <div class="formula-label">Forma magnetostática de Ampère; forma completa: \(\oint\vec B\cdot d\vec l=\mu_0 I_\text{enc}+\mu_0\epsilon_0\,d\Phi_E/dt\)</div>
   </div>
 
   <div class="callout info">
@@ -729,6 +752,8 @@
     <div class="callout-body"><strong>Ley de Lenz:</strong> "La corriente inducida en una espira está en la dirección que crea un campo magnético que se opone al cambio en el flujo magnético."</div>
   </div>
 
+  <div class="mini-check"><strong>Procedimiento de 3 pasos:</strong> (1) identifica si el flujo aumenta o disminuye; (2) decide qué campo inducido se opone a ese cambio; (3) usa la regla de mano derecha para traducir ese campo en sentido de corriente. La “inercia eléctrica” es solo una analogía heurística, no una equivalencia física.</div>
+
   <!-- SVG: casos de lenz -->
   <div class="diagram-wrapper">
     <div class="diagram-title">Dirección de la corriente inducida (Ley de Lenz)</div>
@@ -780,19 +805,19 @@
     <div class="card" style="border-color:rgba(74,158,255,0.3)">
       <h4 style="color:var(--accent-blue)">Paramagnéticos</h4>
       <p style="font-size:13px">Momentos atómicos netos. Se alinean <em>con</em> el campo externo.</p>
-      <p style="font-size:13px;color:var(--muted)">\(K_m\) entre 1.00001 y 1.003</p>
-      <p style="font-size:13px;color:var(--muted)">Ley de Curie: \(M = C\dfrac{B}{T}\)</p>
+      <p style="font-size:13px;color:var(--muted)">\(\chi_m>0\), \(\mu_r=1+\chi_m\) en SI</p>
+      <p style="font-size:13px;color:var(--muted)">Curie ideal: \(\chi_m=C/T\), con \(M=\chi_m H\)</p>
     </div>
     <div class="card" style="border-color:rgba(248,113,113,0.3)">
       <h4 style="color:var(--accent-rose)">Diamagnéticos</h4>
       <p style="font-size:13px">Sin momento neto. El campo externo <em>induce</em> momentos opuestos a él.</p>
-      <p style="font-size:13px;color:var(--muted)">\(K_m\) ligeramente &lt; 1</p>
+      <p style="font-size:13px;color:var(--muted)">\(\chi_m<0\), por tanto \(\mu_r\) ligeramente &lt; 1</p>
       <p style="font-size:13px;color:var(--muted)">\(\chi_m < 0\) (susceptibilidad negativa)</p>
     </div>
     <div class="card" style="border-color:rgba(245,200,66,0.3)">
       <h4 style="color:var(--accent-gold)">Ferromagnéticos</h4>
       <p style="font-size:13px"><em>Dominios</em> alineados. Mantienen magnetización sin campo externo.</p>
-      <p style="font-size:13px;color:var(--muted)">\(K_m\) de 1000 a 100,000</p>
+      <p style="font-size:13px;color:var(--muted)">\(\mu_r\) grande y no lineal; depende de historia magnética</p>
       <p style="font-size:13px;color:var(--muted)">Histéresis: magnetización permanente</p>
     </div>
   </div>
@@ -976,11 +1001,11 @@
         <span class="sim-value" id="L-display">2.0 H</span>
       </div>
     </div>
-    <canvas id="rl-canvas" width="720" height="200"></canvas>
+    <canvas id="rl-canvas" width="720" height="200" role="img" aria-label="Gráfico de crecimiento exponencial de corriente en un circuito RL y decaimiento de di/dt."></canvas>
     <div class="output-row">
       <div class="output-item"><span class="lbl">τ = L/R</span><span class="val" id="tau-out">0.40 s</span></div>
       <div class="output-item"><span class="lbl">I_final = ε/R</span><span class="val" id="ifinal-out">2.00 A</span></div>
-      <div class="output-item"><span class="lbl">U_L máx = ½LI²</span><span class="val" id="ul-out">4.00 J</span></div>
+      <div class="output-item"><span class="lbl">E_L máx = ½LI²</span><span class="val" id="ul-out">4.00 J</span></div>
     </div>
   </div>
 </section>
@@ -1024,7 +1049,8 @@
   <!-- LC animation via canvas -->
   <div class="sim-box">
     <div class="sim-title">🔄 Oscilación LC — Intercambio de Energía</div>
-    <canvas id="lc-canvas" width="720" height="180"></canvas>
+    <button class="sim-pause" id="lc-toggle" type="button" aria-pressed="false">Pausar animación</button>
+    <canvas id="lc-canvas" width="720" height="180" role="img" aria-label="Ondas de carga, corriente y energías en un circuito LC ideal."></canvas>
     <div class="phase-legend">
       <div class="phase-legend-item"><div class="phase-dot" style="background:#4a9eff"></div>Carga q(t)</div>
       <div class="phase-legend-item"><div class="phase-dot" style="background:#f5c842"></div>Corriente i(t)</div>
@@ -1070,7 +1096,8 @@
   <!-- LRC canvas -->
   <div class="sim-box">
     <div class="sim-title">📉 Comparación de modos de amortiguamiento</div>
-    <canvas id="lrc-canvas" width="720" height="180"></canvas>
+    <canvas id="lrc-canvas" width="720" height="180" role="img" aria-label="Comparación de respuestas subamortiguada, crítica y sobreamortiguada de un circuito LRC."></canvas>
+    <p class="sim-note">Para la curva crítica se usa exactamente \(R=2\sqrt{L/C}\), coherente con \(R^2=4L/C\).</p>
     <div class="phase-legend">
       <div class="phase-legend-item"><div class="phase-dot" style="background:#4a9eff"></div>Subamortiguado (R pequeño)</div>
       <div class="phase-legend-item"><div class="phase-dot" style="background:#f5c842"></div>Críticamente amortiguado</div>
@@ -1108,7 +1135,7 @@
     <tr><th>Elemento</th><th>Impedancia Z</th><th>Reactancia</th><th>Fase (V respecto a I)</th><th>Memoria</th></tr>
     <tr><td>Resistor R</td><td>R</td><td>—</td><td>En fase (0°)</td><td>—</td></tr>
     <tr><td>Inductor L</td><td>\(i\omega L\)</td><td>\(X_L = \omega L\)</td><td>Adelanta 90°</td><td><strong>ELI</strong></td></tr>
-    <tr><td>Capacitor C</td><td>\(1/(i\omega C)\)</td><td>\(X_C = -1/(\omega C)\)</td><td>Se retrasa 90°</td><td><strong>ICE</strong></td></tr>
+    <tr><td>Capacitor C</td><td>\(-i/(\omega C)\)</td><td>\(X_C = 1/(\omega C)\) como magnitud; parte imaginaria \(-X_C\)</td><td>La corriente adelanta 90°</td><td><strong>ICE</strong></td></tr>
   </table>
 
   <div class="callout key">
@@ -1232,7 +1259,7 @@
         <span class="sim-value" id="res-C-val">32 μF</span>
       </div>
     </div>
-    <canvas id="res-canvas" width="720" height="200"></canvas>
+    <canvas id="res-canvas" width="720" height="200" role="img" aria-label="Curva de corriente contra frecuencia para un circuito RLC serie."></canvas>
     <div class="output-row">
       <div class="output-item"><span class="lbl">f₀ = 1/(2π√LC)</span><span class="val" id="res-f0">198 Hz</span></div>
       <div class="output-item"><span class="lbl">Z en resonancia</span><span class="val" id="res-Zmin">5.0 Ω</span></div>
@@ -1266,12 +1293,17 @@
     <div class="card">
       <h4>Transformador reductor</h4>
       <p style="font-size:14px">\(N_2 < N_1\) → \(V_2 < V_1\), \(I_2 > I_1\)</p>
-      <p style="font-size:13px;color:var(--muted)">Usado en el hogar: de 220 V a 5 V para cargar dispositivos.</p>
+      <p style="font-size:13px;color:var(--muted)">Modelo didáctico de reducción de voltaje; los cargadores modernos además rectifican, conmutan y regulan la salida.</p>
     </div>
   </div>
 
   <div class="callout info">
     <span class="callout-icon">⚡</span>
+    <div class="callout-body"><strong>Modelo ideal y cargadores modernos:</strong> un transformador ideal permite entender cambio de voltaje por razón de espiras; en cargadores reales suele haber rectificación, conmutación y regulación electrónica además del acoplamiento inductivo.</div>
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-icon">🔌</span>
     <div class="callout-body"><strong>Transformación de impedancia:</strong> Un transformador "ve" en el primario una resistencia efectiva \(R_\text{eff} = R/(N_2/N_1)^2\). Esto se usa en audiofrecuencia para lograr <em>adaptación de impedancias</em> (maximum power transfer).</div>
   </div>
 
@@ -1416,6 +1448,14 @@
 </section>
 
 <!-- ── QUIZ ── -->
+<section id="evaluacion-mixta">
+  <div class="section-eyebrow">Evaluación formativa</div>
+  <h2 class="section-title">Problemas cortos y <span>rúbrica</span></h2>
+  <p class="section-desc">Antes del quiz, demuestra comprensión con respuestas breves y cálculos. Úsalo como hoja de trabajo: predice, calcula, justifica y revisa unidades.</p>
+  <div class="card"><div class="card-title">Tareas esenciales</div><ol><li>Determina la fuerza sobre una carga negativa con \(\vec v=+v\hat i\) y \(\vec B=+B\hat j\), explicando el signo.</li><li>Para una espira cuyo flujo hacia dentro de la página aumenta, decide el sentido de corriente inducida en tres pasos.</li><li>En un RLC serie con \(R=10\,\Omega\), \(L=50\,\text{mH}\), \(C=20\,\mu\text{F}\), calcula \(f_0\) y decide si a 1 kHz domina \(X_L\) o \(X_C\).</li></ol></div>
+  <table><thead><tr><th>Criterio</th><th>Logro alto</th><th>Logro inicial</th></tr></thead><tbody><tr><td>Modelo físico</td><td>Identifica ley, variable que cambia y dirección esperada.</td><td>Mezcla leyes o no justifica el signo.</td></tr><tr><td>Formalización</td><td>Usa ecuaciones con unidades y convención clara.</td><td>Aplica fórmulas sin condiciones de validez.</td></tr><tr><td>Comunicación</td><td>Explica con palabras, diagrama o pasos verificables.</td><td>Entrega solo un número sin interpretación.</td></tr></tbody></table>
+</section>
+
 <section id="quiz-section">
   <div class="section-eyebrow">Autodiagnóstico</div>
   <h2 class="section-title">Quiz de <span>Comprensión</span></h2>
@@ -1427,11 +1467,11 @@
     <div class="quiz-opts">
       <button class="quiz-opt" onclick="checkQ(this,'wrong','Q1')">Hacia arriba</button>
       <button class="quiz-opt" onclick="checkQ(this,'wrong','Q1')">Hacia la izquierda (−x̂)</button>
-      <button class="quiz-opt" onclick="checkQ(this,'correct','Q1')">Hacia afuera de la página (+ẑ)</button>
-      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q1')">Hacia la página (−ẑ)</button>
+      <button class="quiz-opt" onclick="checkQ(this,'wrong','Q1')">Hacia afuera de la página (+ẑ)</button>
+      <button class="quiz-opt" onclick="checkQ(this,'correct','Q1')">Hacia la página (−ẑ)</button>
     </div>
-    <div class="quiz-feedback" id="Q1-correct">✅ Correcto. Para el electrón: \(\vec{F} = q\vec{v}\times\vec{B} = (-e)(\hat{x})\times(\hat{j}) = (-e)(\hat{k})\). Al ser la carga negativa, el signo se invierte → \(+\hat{k}\) = hacia afuera de la página.</div>
-    <div class="quiz-feedback" id="Q1-wrong">❌ Recuerda: aplica la RMD para la carga positiva → obtienes \(-\hat{k}\). Como el electrón tiene carga negativa, la fuerza se invierte → \(+\hat{k}\) (hacia afuera de la página).</div>
+    <div class="quiz-feedback" id="Q1-correct" role="status" aria-live="polite">✅ Correcto. Para carga positiva, \(\hat{i}\times\hat{j}=\hat{k}\). Como el electrón tiene carga negativa, la fuerza se invierte: \(-\hat{k}\), hacia la página.</div>
+    <div class="quiz-feedback" id="Q1-wrong" role="status" aria-live="polite">❌ Recuerda: para una carga positiva \(\hat{i}\times\hat{j}=\hat{k}\). El electrón tiene carga negativa, así que la dirección se invierte a \(-\hat{k}\) (hacia la página).</div>
   </div>
 
   <!-- Q2 -->
@@ -1443,8 +1483,8 @@
       <button class="quiz-opt" onclick="checkQ(this,'wrong','Q2')">El inductor disipa potencia media positiva en CA</button>
       <button class="quiz-opt" onclick="checkQ(this,'wrong','Q2')">En DC, el inductor actúa como un circuito abierto</button>
     </div>
-    <div class="quiz-feedback" id="Q2-correct">✅ Correcto. "ELI": en un inductor (L), el voltaje (E) va antes que la corriente (I). La reactancia inductiva \(X_L = \omega L\) <em>aumenta</em> con la frecuencia. La potencia media del inductor es cero. En DC estacionaria, el inductor actúa como cortocircuito.</div>
-    <div class="quiz-feedback" id="Q2-wrong">❌ Piensa en "ELI": el voltaje adelanta 90°. \(X_L = \omega L\) crece con ω. La potencia media del inductor ideal es cero. En DC estacionaria actúa como cortocircuito.</div>
+    <div class="quiz-feedback" id="Q2-correct" role="status" aria-live="polite">✅ Correcto. "ELI": en un inductor (L), el voltaje (E) va antes que la corriente (I). La reactancia inductiva \(X_L = \omega L\) <em>aumenta</em> con la frecuencia. La potencia media del inductor es cero. En DC estacionaria, el inductor actúa como cortocircuito.</div>
+    <div class="quiz-feedback" id="Q2-wrong" role="status" aria-live="polite">❌ Piensa en "ELI": el voltaje adelanta 90°. \(X_L = \omega L\) crece con ω. La potencia media del inductor ideal es cero. En DC estacionaria actúa como cortocircuito.</div>
   </div>
 
   <!-- Q3 -->
@@ -1456,8 +1496,8 @@
       <button class="quiz-opt" onclick="checkQ(this,'correct','Q3')">Se conserva, oscilando entre \(U_E\) y \(U_B\)</button>
       <button class="quiz-opt" onclick="checkQ(this,'wrong','Q3')">Se reduce a la mitad cada oscilación</button>
     </div>
-    <div class="quiz-feedback" id="Q3-correct">✅ Correcto. \(E = \frac{1}{2}Li^2 + \frac{q^2}{2C} = \text{constante}\). La energía oscila entre campo magnético (\(\frac{1}{2}LI^2\)) en el inductor y campo eléctrico (\(Q^2/2C\)) en el capacitor, análogo al intercambio entre energía cinética y potencial en masa-resorte.</div>
-    <div class="quiz-feedback" id="Q3-wrong">❌ Sin resistencia no hay disipación. La energía total \(\frac{1}{2}Li^2 + \frac{q^2}{2C}\) se conserva, oscilando entre los dos elementos. Es análogo al péndulo ideal.</div>
+    <div class="quiz-feedback" id="Q3-correct" role="status" aria-live="polite">✅ Correcto. \(E = \frac{1}{2}Li^2 + \frac{q^2}{2C} = \text{constante}\). La energía oscila entre campo magnético (\(\frac{1}{2}LI^2\)) en el inductor y campo eléctrico (\(Q^2/2C\)) en el capacitor, análogo al intercambio entre energía cinética y potencial en masa-resorte.</div>
+    <div class="quiz-feedback" id="Q3-wrong" role="status" aria-live="polite">❌ Sin resistencia no hay disipación. La energía total \(\frac{1}{2}Li^2 + \frac{q^2}{2C}\) se conserva, oscilando entre los dos elementos. Es análogo al péndulo ideal.</div>
   </div>
 
   <!-- Q4 -->
@@ -1469,8 +1509,8 @@
       <button class="quiz-opt" onclick="checkQ(this,'wrong','Q4')">220 V</button>
       <button class="quiz-opt" onclick="checkQ(this,'wrong','Q4')">4400 V</button>
     </div>
-    <div class="quiz-feedback" id="Q4-correct">✅ Correcto. \(V_2 = V_1(N_2/N_1) = 220\times(500/100) = 220\times5 = 1100\,\text{V}\). Es un transformador elevador (\(N_2>N_1\)), por lo que el voltaje sube y la corriente baja.</div>
-    <div class="quiz-feedback" id="Q4-wrong">❌ Usa \(V_2/V_1 = N_2/N_1 = 500/100 = 5\), por lo que \(V_2 = 220\times5 = 1100\,\text{V}\).</div>
+    <div class="quiz-feedback" id="Q4-correct" role="status" aria-live="polite">✅ Correcto. \(V_2 = V_1(N_2/N_1) = 220\times(500/100) = 220\times5 = 1100\,\text{V}\). Es un transformador elevador (\(N_2>N_1\)), por lo que el voltaje sube y la corriente baja.</div>
+    <div class="quiz-feedback" id="Q4-wrong" role="status" aria-live="polite">❌ Usa \(V_2/V_1 = N_2/N_1 = 500/100 = 5\), por lo que \(V_2 = 220\times5 = 1100\,\text{V}\).</div>
   </div>
 
   <!-- Q5 -->
@@ -1482,9 +1522,16 @@
       <button class="quiz-opt" onclick="checkQ(this,'wrong','Q5')">≈ 2000 Hz</button>
       <button class="quiz-opt" onclick="checkQ(this,'wrong','Q5')">≈ 500 Hz</button>
     </div>
-    <div class="quiz-feedback" id="Q5-correct">✅ Correcto. \(f_0 = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{10^{-3}\times25\times10^{-6}}} = \frac{1}{2\pi\times5\times10^{-3}} \approx \frac{1}{0.03141} \approx 1007\,\text{Hz}\).</div>
-    <div class="quiz-feedback" id="Q5-wrong">❌ \(f_0 = \frac{1}{2\pi\sqrt{LC}}\). Con \(L=10^{-3}\,\text{H}\) y \(C=25\times10^{-6}\,\text{F}\): \(\sqrt{LC} = \sqrt{25\times10^{-9}} = 5\times10^{-5}\,\text{s}\). \(f_0 = 1/(2\pi\times5\times10^{-5}/1000) \approx 1007\,\text{Hz}\).</div>
+    <div class="quiz-feedback" id="Q5-correct" role="status" aria-live="polite">✅ Correcto. \(f_0 = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{10^{-3}\times25\times10^{-6}}} = \frac{1}{2\pi\times1.581\times10^{-4}} \approx \frac{1}{0.000993} \approx 1007\,\text{Hz}\).</div>
+    <div class="quiz-feedback" id="Q5-wrong" role="status" aria-live="polite">❌ \(f_0 = \frac{1}{2\pi\sqrt{LC}}\). Con \(L=10^{-3}\,\text{H}\) y \(C=25\times10^{-6}\,\text{F}\): \(\sqrt{LC} = \sqrt{25\times10^{-9}} = 1.581\times10^{-4}\,\text{s}\). \(f_0 = 1/(2\pi\times1.581\times10^{-4}) \approx 1007\,\text{Hz}\).</div>
   </div>
+</section>
+
+
+<section id="licencia">
+  <div class="section-eyebrow">Reutilización</div>
+  <h2 class="section-title">Licencia y <span>atribución</span></h2>
+  <p class="section-desc">Versión 1.1 corregida y ampliada para estudio. Salvo indicación institucional distinta, se recomienda distribuir este recurso con licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0), citando curso, autoría docente y fecha de versión.</p>
 </section>
 
 </main>
@@ -1622,6 +1669,7 @@ drawRL();
 const lcCanvas = document.getElementById('lc-canvas');
 const lcCtx = lcCanvas.getContext('2d');
 let lcTime = 0;
+let lcPaused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const omega0 = 2; // rad/s (normalized)
 
 function animateLC() {
@@ -1672,9 +1720,16 @@ function animateLC() {
   lcCtx.beginPath();lcCtx.moveTo(cursorX,pad);lcCtx.lineTo(cursorX,H-pad);lcCtx.stroke();
   lcCtx.setLineDash([]);
 
-  lcTime += 0.02;
+  if(!lcPaused) lcTime += 0.02;
   requestAnimationFrame(animateLC);
 }
+const lcToggle = document.getElementById('lc-toggle');
+lcToggle.addEventListener('click', () => {
+  lcPaused = !lcPaused;
+  lcToggle.textContent = lcPaused ? 'Reanudar animación' : 'Pausar animación';
+  lcToggle.setAttribute('aria-pressed', String(lcPaused));
+});
+if(lcPaused) { lcToggle.textContent = 'Reanudar animación'; lcToggle.setAttribute('aria-pressed','true'); }
 animateLC();
 
 /* ──────────────────────────────────────────────
@@ -1721,7 +1776,7 @@ function drawLRC() {
   }
 
   drawDamped(0.3,'#4a9eff');   // underdamped
-  drawDamped(2.0,'#f5c842');   // critical (R²=4L/C → R=2√(L/C)=2*√4=4, but use R=2 for visual)
+  drawDamped(4.0,'#f5c842');   // critical: R=2√(L/C)=4 for L=1, C=0.25
   drawDamped(6.0,'#f87171');   // overdamped
 }
 drawLRC();
